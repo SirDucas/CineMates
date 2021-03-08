@@ -1,6 +1,6 @@
 # cinemates
 
-CineMates20 è un sistema complesso e distribuito finalizzato ad offrire un moderno sacial network multipiattaforma per appassionati di cinema. Il sistema consiste in un back-end sicuro, performante e scalabile, e in due Client (uno su piattaforma desktop, e uno mobile) attraverso cui gli utenti possono fruire delle funzionalità del sistema in modo intuitivo, rapido e piacevole.
+CineMates20 è un sistema complesso e distribuito finalizzato ad offrire un moderno social network multipiattaforma per appassionati di cinema. Il sistema consiste in un back-end sicuro, performante e scalabile, e in due Client (uno su piattaforma desktop, e uno mobile) attraverso cui gli utenti possono fruire delle funzionalità del sistema in modo intuitivo, rapido e piacevole.
 
 ## Getting Started
 
