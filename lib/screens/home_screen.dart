@@ -1,9 +1,11 @@
+import 'package:cinemates/screens/login_screen.dart';
 import 'package:cinemates/screens/search_screen.dart';
 import 'package:cinemates/widgets/genres.dart';
 import 'package:cinemates/widgets/now_playing.dart';
 import 'package:cinemates/widgets/persons.dart';
 import 'package:cinemates/widgets/top_movies.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 
@@ -17,10 +19,57 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Style.Colors.mainColor,
+      drawer: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Style.Colors.mainColor),
+        child: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                height: 100.0,
+                child: const DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Style.Colors.mainColor,
+                  ),
+                  margin: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    "Cinemates Menu",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0
+                    ),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: const Text(
+                  "Login",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => LoginScreen()
+                    )
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  "Preferiti",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  // cambio schermata 2
+                  // per chiusura menu a tendina: Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Style.Colors.mainColor,
         centerTitle: true,
-        leading: Icon(EvaIcons.menu2Outline, color: Colors.white),
         title: Text("CineMates"),
         actions: <Widget>[
           IconButton(
