@@ -1,3 +1,4 @@
+import 'package:cinemates/screens/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/bloc/get_now_playing_bloc.dart';
 import 'package:cinemates/model/movie.dart';
@@ -84,50 +85,57 @@ class _NowPlayingState extends State<NowPlaying> {
               scrollDirection: Axis.horizontal,
               itemCount: movies.take(5).length,
               itemBuilder: (context, index) {
-                return Stack(
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 220,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://image.tmdb.org/t/p/original/" +
-                                      movies[index].backPoster),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                                Style.Colors.mainColor.withOpacity(1.0),
-                                Style.Colors.mainColor.withOpacity(0.0)
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              stops: [0.0, 1.0])),
-                    ),
-                    Positioned(
-                      bottom: 30.0,
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                        width: 250.0,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                movies[index].title,
-                                style: TextStyle(
-                                    height: 1.5,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0),
-                              )
-                            ]),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => MovieDetailScreen(movie: movies[index])
+                    ));
+                  },
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 220,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    "https://image.tmdb.org/t/p/original/" +
+                                        movies[index].backPoster),
+                                fit: BoxFit.cover)),
                       ),
-                    )
-                  ],
+                      Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [
+                                  Style.Colors.mainColor.withOpacity(1.0),
+                                  Style.Colors.mainColor.withOpacity(0.0)
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                stops: [0.0, 1.0])),
+                      ),
+                      Positioned(
+                        bottom: 30.0,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                          width: 250.0,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  movies[index].title,
+                                  style: TextStyle(
+                                      height: 1.5,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0),
+                                )
+                              ]),
+                        ),
+                      )
+                    ],
+                  ),
                 );
               }),
           length: movies.take(5).length,

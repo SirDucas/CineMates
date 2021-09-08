@@ -13,6 +13,7 @@ class Casts extends StatefulWidget {
 
 class _CastsState extends State<Casts> {
   final int id;
+  String defaultImgUrl = "https://image.tmdb.org/t/p/w300/";
   _CastsState(this.id);
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _CastsState extends State<Casts> {
         Padding(
           padding: EdgeInsets.only(left: 10.0, top: 20.0),
           child: Text(
-            "CAST",
+            "STARRING",
             style: TextStyle(
                 color: Style.Colors.titleColor,
                 fontWeight: FontWeight.w500,
@@ -113,8 +114,19 @@ class _CastsState extends State<Casts> {
         padding: EdgeInsets.only(left: 10.0),
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 15,
+            itemCount: casts.length,
             itemBuilder: (context, index) {
+              for (int i = 0; i<casts.length; i++) {
+                if (casts[i].img == null) {
+                  casts[i].img = "360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg";
+                }
+              }
+              if (casts[index].img == "360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg") {
+                defaultImgUrl = "https://t4.ftcdn.net/jpg/00/64/67/63/";
+              }
+              else {
+                defaultImgUrl = "https://image.tmdb.org/t/p/w300/";
+              }
               return Container(
                 padding: EdgeInsets.only(top: 10.0, right: 8.0),
                 width: 100.0,
@@ -131,8 +143,9 @@ class _CastsState extends State<Casts> {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                                "https://image.tmdb.org/t/p/w300/" +
-                                    casts[index].img),
+                                defaultImgUrl +
+                                    casts[index].img
+                            ),
                           ),
                         ),
                       ),

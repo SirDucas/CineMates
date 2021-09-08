@@ -1,3 +1,4 @@
+import 'package:cinemates/screens/search_screen.dart';
 import 'package:cinemates/widgets/genres.dart';
 import 'package:cinemates/widgets/now_playing.dart';
 import 'package:cinemates/widgets/persons.dart';
@@ -27,10 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 EvaIcons.searchOutline,
                 color: Colors.white,
               ),
-              onPressed: null)
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => SearchScreen()
+                ));
+              }
+          ),
         ],
       ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
           NowPlaying(),
           GenresScreen(),
