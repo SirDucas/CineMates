@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cinemates/database_model/user.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -132,7 +133,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   textColor: Style.Colors.mainColor,
                   color: Style.Colors.secondColor,
                   child: Text('Registrati'),
-                  onPressed: () {},
+                  onPressed: () {
+                    User().userRegistration(nameController.text, emailController.text, passwordController.text);
+                  },
                 )),
           ],
         ),
