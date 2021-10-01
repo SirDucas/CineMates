@@ -38,6 +38,7 @@ dependencies:
   sliver_fab: ^1.0.0
   youtube_player_flutter: ^6.1.0+7
   url_launcher:
+  mysql1: ^0.19.2
 
 dev_dependencies:
   flutter_test:
