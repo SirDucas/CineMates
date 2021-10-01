@@ -39,6 +39,7 @@ dependencies:
   youtube_player_flutter: ^6.1.0+7
   url_launcher:
   mysql1: ^0.19.2
+  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
