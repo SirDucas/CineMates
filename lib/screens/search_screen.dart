@@ -12,7 +12,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-
   final textFieldController = TextEditingController();
 
   @override
@@ -34,28 +33,37 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () {FocusScope.of(context).requestFocus(new FocusNode());},
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
         child: Column(
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(15.0),
               child: TextField(
                 controller: textFieldController,
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20),
                 cursorColor: Style.Colors.secondColor,
                 cursorWidth: 1.5,
                 decoration: InputDecoration(
                   hintText: "Cerca per titolo...",
-                  hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w300, fontSize: 18.0),
+                  hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 18.0),
                   prefixIcon: Icon(EvaIcons.searchOutline, color: Colors.grey),
                   suffixIcon: IconButton(
-                    icon: Icon(EvaIcons.arrowForward, color: Colors.grey),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => MovieSearch(query: textFieldController.text))
-                      );
-                    }
-                  ),
+                      icon: Icon(EvaIcons.arrowForward, color: Colors.grey),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MovieSearch(
+                                    query: textFieldController.text)));
+                      }),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Style.Colors.secondColor),
                   ),
@@ -68,12 +76,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 15.0),
           ],
         ),
       ),
     );
   }
 }
-
-

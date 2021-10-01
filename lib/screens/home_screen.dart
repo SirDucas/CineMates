@@ -1,4 +1,5 @@
 import 'package:cinemates/screens/login_screen.dart';
+import 'package:cinemates/screens/registration_screen.dart';
 import 'package:cinemates/screens/search_screen.dart';
 import 'package:cinemates/widgets/genres.dart';
 import 'package:cinemates/widgets/now_playing.dart';
@@ -43,6 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 title: const Text(
+                  "Cerca Titoli",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => SearchScreen()
+                  )
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
                   "Login",
                   style: TextStyle(color: Colors.white),
                 ),
@@ -50,6 +63,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(context, MaterialPageRoute(
                       builder: (context) => LoginScreen()
                     )
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  "Registrazione",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => RegistrationScreen()
+                  )
                   );
                 },
               ),
