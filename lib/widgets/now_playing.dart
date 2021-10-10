@@ -82,6 +82,7 @@ class _NowPlayingState extends State<NowPlaying> {
           indicatorSelectorColor: Style.Colors.secondColor,
           shape: IndicatorShape.circle(size: 8.0),
           pageView: PageView.builder(
+              controller: new PageController(),
               scrollDirection: Axis.horizontal,
               itemCount: movies.take(5).length,
               itemBuilder: (context, index) {

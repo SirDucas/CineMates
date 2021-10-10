@@ -1,7 +1,7 @@
 import 'package:cinemates/bloc/get_movie_videos_bloc.dart';
 import 'package:cinemates/model/movie.dart';
-import 'package:cinemates/model/video.dart';
 import 'package:cinemates/model/video_response.dart';
+import 'package:cinemates/model/video.dart';
 import 'package:cinemates/screens/video_player.dart';
 import 'package:cinemates/widgets/casts.dart';
 import 'package:cinemates/widgets/movie_info.dart';

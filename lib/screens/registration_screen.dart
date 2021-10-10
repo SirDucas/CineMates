@@ -1,9 +1,10 @@
+import 'package:cinemates/alerts/alert_dialog_model.dart';
+import 'package:cinemates/database_model/check.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:cinemates/database_model/user.dart';
+import 'package:cinemates/database_model//user.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  bool registrationValidator = true;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -133,8 +135,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   textColor: Style.Colors.mainColor,
                   color: Style.Colors.secondColor,
                   child: Text('Registrati'),
-                  onPressed: () {
-                    User().userRegistration(nameController.text, emailController.text, passwordController.text);
+                  onPressed: () async {
+
+                    if (nameController.text.isEmpty ||
+                        emailController.text.isEmpty ||
+                        passwordController.text.isEmpty) {
+                      registrationValidator = false;
+                      MyAlertDialogs().showDialogEmptyField(context);
+
+                    } else if ((!Check().checkUsernameLength(nameController.text)) ||
+                        (!Check().checkPasswordLength(passwordController.text)) ||
+                        (!Check().checkEmail(emailController.text))) {
+                      registrationValidator = false;
+                      MyAlertDialogs().showDialogInvalidField(context);
+
+                    } else if ((await User().testDuplicatedUsername(nameController.text)) == false) {
+                      registrationValidator = false;
+                      MyAlertDialogs().showDialogUsernameDuplicated(context);
+
+                    } else if (await User().testDuplicatedEmail(emailController.text) == false) {
+                      registrationValidator = false;
+                      MyAlertDialogs().showDialogEmailDuplicated(context);
+
+                    } else {
+                      if (registrationValidator == true) {
+                        User().userRegistration(nameController.text, emailController.text, passwordController.text);
+                        MyAlertDialogs().showDialogSuccessfullRegistration(context);
+                      }
+                    }
                   },
                 )),
           ],

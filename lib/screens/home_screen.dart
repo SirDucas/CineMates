@@ -44,6 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 title: const Text(
+                  "Home",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => HomeScreen()
+                  )
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
                   "Cerca Titoli",
                   style: TextStyle(color: Colors.white),
                 ),

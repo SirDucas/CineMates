@@ -7,8 +7,16 @@ class Check {
     return md5.convert(utf8.encode(input)).toString();
   }
 
-  bool checkLength(String input) {
-    if (input.length <= 2 || input.length >= 11) {
+  bool checkUsernameLength(String input) {
+    if (input.length < 6 || input.length > 16) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool checkPasswordLength(String input) {
+    if (input.length < 8 || input.length > 32) {
       return false;
     } else {
       return true;
