@@ -1,3 +1,6 @@
+import 'package:cinemates/alerts/alert_dialog_model.dart';
+import 'package:cinemates/database_model/check.dart';
+import 'package:cinemates/database_model/user.dart';
 import 'package:cinemates/screens/registration_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   String urlTmdb = "https://www.themoviedb.org/?language=it-IT";
@@ -39,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
-                  controller: nameController,
+                  controller: emailController,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -47,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   cursorColor: Style.Colors.secondColor,
                   cursorWidth: 1.5,
                   decoration: InputDecoration(
-                    hintText: "username",
+                    hintText: "email",
                     hintStyle: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w300,
@@ -104,7 +107,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: Style.Colors.mainColor,
                     color: Style.Colors.secondColor,
                     child: Text('Login'),
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (emailController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
+                        MyAlertDialogs().showDialogEmptyField(context);
+                      }
+                      else if (!Check().checkEmail(emailController.text)) {
+                        MyAlertDialogs().showDialogInvalidLoginField(context);
+                      }
+                      else {
+                        if (await User().userLogin(emailController.text, passwordController.text) == true) {
+                          MyAlertDialogs().showDialogSuccessfullLogin(context);
+                          print("LOGIN EFFETTUATO");
+                          //todo
+                          //CREARE TOKEN DI LOGIN, SALVARSI I DATI SULLA SESSIONE DELL'UTENTE
+                        }
+                        else {
+                          MyAlertDialogs().showDialogFailedLogin(context);
+                          print("LOGIN FALLITO");
+                        }
+                      }
+                    }
                   )),
               SizedBox(height: 50.0),
               Container(

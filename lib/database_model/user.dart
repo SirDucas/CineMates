@@ -3,6 +3,25 @@ import 'package:cinemates/database_model/check.dart';
 
 class User {
 
+  Future<bool> userLogin (String _email, String _password) async {
+      var db = new DatabaseConnection();
+      await db.initConnection();
+      var result = await db.conn.query(
+          'select password from user where email = ?', ['$_email']);
+      for (var row in result) {
+        if (Check().generateMd5(_password) == row[0]) {
+          await db.conn.close(); //chiusura connessione
+          return true;
+        }
+        else {
+          await db.conn.close(); //chiusura connessione
+          return false;
+        }
+      }
+      await db.conn.close(); //chiusura connessione
+      return false;
+  }
+
   void userRegistration(
       String _username, String _email, String _password) async {
     if ((_username.isEmpty || _email.isEmpty || _password.isEmpty) ||
@@ -29,7 +48,6 @@ class User {
         'select username from user');
     for (var row in result) {
       if (_username == row[0]) {
-        print('username $_username già presente!!!!!!!!!');
         flag = false;
       }
     }
@@ -45,12 +63,18 @@ class User {
         'select email from user');
     for (var row in result) {
       if (_email == row[0]) {
-        print('email $_email già presente!!!!!!!!!');
         flag = false;
       }
     }
     await db.conn.close(); //chiusura connessione
     return flag;
+  }
+
+  void addMovieToFavorites(int idMovie) {
+    // todo
+    // implementare query che andrà ad aggiungere l'id del film (lo prendo dalla detail_screen in cui l'user si trova)
+    // nella lista di preferiti di un utente, salvata nel nostro db mysql
+
   }
 
 }

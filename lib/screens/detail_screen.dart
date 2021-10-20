@@ -1,4 +1,5 @@
 import 'package:cinemates/bloc/get_movie_videos_bloc.dart';
+import 'package:cinemates/database_model/user.dart';
 import 'package:cinemates/model/movie.dart';
 import 'package:cinemates/model/video_response.dart';
 import 'package:cinemates/model/video.dart';
@@ -103,6 +104,42 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
               padding: EdgeInsets.all(0.0),
               sliver: SliverList(
                   delegate: SliverChildListDelegate([
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 45.0,
+                        height: 45.0,
+                        child: FloatingActionButton(
+                          backgroundColor: Style.Colors.secondColor,
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            User().addMovieToFavorites(movie.id);
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 15.0),
+                      Text("Aggiungi titolo ai preferiti",
+                          style: TextStyle(
+                              color: Style.Colors.titleColor,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w500,
+                              height: 1.5))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.0, top: 20.0),
+                  child: Text("RATING",
+                      style: TextStyle(
+                        color: Style.Colors.titleColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12.0,
+                      )),
+                ),
                 Padding(
                   padding: EdgeInsets.only(left: 10.0, top: 20.0),
                   child: Row(
