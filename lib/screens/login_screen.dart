@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_session/flutter_session.dart';
+
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -117,14 +120,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       else {
                         if (await User().userLogin(emailController.text, passwordController.text) == true) {
-                          MyAlertDialogs().showDialogSuccessfullLogin(context);
-                          print("LOGIN EFFETTUATO");
-                          //todo
-                          //CREARE TOKEN DI LOGIN, SALVARSI I DATI SULLA SESSIONE DELL'UTENTE
+                          //MyAlertDialogs().showDialogSuccessfullLogin(context);
+                          await Navigator.pushReplacement(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) => HomeScreen()));
+
                         }
                         else {
                           MyAlertDialogs().showDialogFailedLogin(context);
-                          print("LOGIN FALLITO");
                         }
                       }
                     }

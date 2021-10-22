@@ -1,4 +1,5 @@
 import 'package:cinemates/screens/home_screen.dart';
+import 'package:cinemates/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 
@@ -140,7 +141,7 @@ class MyAlertDialogs {
                     await Navigator.pushReplacement(
                         context,
                         new MaterialPageRoute(
-                            builder: (BuildContext context) => HomeScreen()));
+                            builder: (BuildContext context) => LoginScreen()));
                   })
             ],
           );

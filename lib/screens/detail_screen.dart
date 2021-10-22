@@ -117,7 +117,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           backgroundColor: Style.Colors.secondColor,
                           child: Icon(Icons.add),
                           onPressed: () {
-                            User().addMovieToFavorites(movie.id);
+                            //User().addMovieToFavorites(movie.id, /*id della lista dell'utente*/);
                           },
                         ),
                       ),

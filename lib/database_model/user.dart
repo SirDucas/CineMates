@@ -1,5 +1,6 @@
 import 'package:cinemates/database_model/database_connection.dart';
 import 'package:cinemates/database_model/check.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class User {
 
@@ -7,10 +8,12 @@ class User {
       var db = new DatabaseConnection();
       await db.initConnection();
       var result = await db.conn.query(
-          'select password from user where email = ?', ['$_email']);
+          'select id, password from user where email = ?', ['$_email']);
       for (var row in result) {
-        if (Check().generateMd5(_password) == row[0]) {
+        if (Check().generateMd5(_password) == row[1]) {
           await db.conn.close(); //chiusura connessione
+          await FlutterSession().set('token', row['id']);
+          await FlutterSession().set('log', 'yes');
           return true;
         }
         else {
@@ -37,7 +40,36 @@ class User {
           'insert into user (username,email,password) values (?, ?, ?)',
           ['$_username', '$_email', '$_password']);
       await db.conn.close(); //chiusura connessione
+      if (result != null) {
+        int idUser = await retrieveIdUser(_email);
+        print(idUser);
+        createFavoriteList(idUser);
+      }
     }
+  }
+
+  Future<int> retrieveIdUser(String _email) async {
+    int idUser;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'select id from user where email = ? ',
+        ['$_email']);
+    for (var row in result) {
+      idUser = row['id'];
+    }
+    await db.conn.close(); //chiusura connessione
+    return idUser;
+  }
+
+  void createFavoriteList(var _idUser) async {
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var favorites =  await db.conn.query(
+        'insert into list (id_user,description,title,isFavoriteList) values (?, ?, ?, ?)',
+        ['$_idUser', "La mia lista preferiti", "Preferiti", 1]);
+    await db.conn.close();
+    return;
   }
 
   Future<bool> testDuplicatedUsername(String _username) async {
@@ -70,11 +102,12 @@ class User {
     return flag;
   }
 
-  void addMovieToFavorites(int idMovie) {
-    // todo
-    // implementare query che andrà ad aggiungere l'id del film (lo prendo dalla detail_screen in cui l'user si trova)
-    // nella lista di preferiti di un utente, salvata nel nostro db mysql
-
+  void addMovieToFavorites(int _idMovie, int _idList) async {
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'insert into list (id,id_list) values (?, ?)',
+        ['$_idMovie', '$_idList']);
+    await db.conn.close(); //chiusura connessione
   }
-
 }
