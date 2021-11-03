@@ -12,10 +12,10 @@ class DatabaseConnection {
 
   Future<void> initConnection() async {
     this.conn = await MySqlConnection.connect(ConnectionSettings(
-        host: 'cinemates-db.cvtkh0bf6amk.us-east-2.rds.amazonaws.com',
+        host: 'cinemates-db.coh7z9zsf7dm.eu-west-1.rds.amazonaws.com',
         port: 3306,
-        user: 'root',
+        user: 'admin',
         db: 'cinemates_db',
-        password: 'cinemates123'));
+        password: 'cinemates12345'));
   }
 }
