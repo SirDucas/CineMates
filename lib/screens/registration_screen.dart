@@ -158,10 +158,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       MyAlertDialogs().showDialogEmailDuplicated(context);
 
                     } else {
-                      if (registrationValidator == true) {
                         User().userRegistration(nameController.text, emailController.text, passwordController.text);
                         MyAlertDialogs().showDialogSuccessfullRegistration(context);
-                      }
                     }
                   },
                 )),

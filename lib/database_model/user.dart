@@ -40,11 +40,9 @@ class User {
           'insert into user (username,email,password) values (?, ?, ?)',
           ['$_username', '$_email', '$_password']);
       await db.conn.close(); //chiusura connessione
-      if (result != null) {
         int idUser = await retrieveIdUser(_email);
         print(idUser);
         createFavoriteList(idUser);
-      }
     }
   }
 
@@ -66,7 +64,7 @@ class User {
     var db = new DatabaseConnection();
     await db.initConnection();
     var favorites =  await db.conn.query(
-        'insert into list (id_user,description,title,isFavoriteList) values (?, ?, ?, ?)',
+        'insert into list (id_user,description,title,isFavorites) values (?, ?, ?, ?)',
         ['$_idUser', "La mia lista preferiti", "Preferiti", 1]);
     await db.conn.close();
     return;
@@ -106,7 +104,7 @@ class User {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'insert into list (id,id_list) values (?, ?)',
+        'insert into favmovie (id_movie,id_list) values (?, ?)',
         ['$_idMovie', '$_idList']);
     await db.conn.close(); //chiusura connessione
   }

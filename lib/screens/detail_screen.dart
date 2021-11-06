@@ -4,6 +4,7 @@ import 'package:cinemates/model/movie.dart';
 import 'package:cinemates/model/video_response.dart';
 import 'package:cinemates/model/video.dart';
 import 'package:cinemates/screens/video_player.dart';
+import 'package:cinemates/session/session_model.dart';
 import 'package:cinemates/widgets/casts.dart';
 import 'package:cinemates/widgets/movie_info.dart';
 import 'package:cinemates/widgets/similar_movies.dart';
@@ -11,6 +12,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:sliver_fab/sliver_fab.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -22,6 +24,8 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
+  int _userId;
+  int _favoritesId;
   final Movie movie;
   _MovieDetailScreenState(this.movie);
   @override
@@ -116,8 +120,15 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         child: FloatingActionButton(
                           backgroundColor: Style.Colors.secondColor,
                           child: Icon(Icons.add),
-                          onPressed: () {
-                            //User().addMovieToFavorites(movie.id, /*id della lista dell'utente*/);
+                          onPressed: () async {
+                            if ((await FlutterSession().get('log')) == 'yes') {
+                              _userId = await FlutterSession().get('token');
+                              _favoritesId = await Data().retrieveFavoritesList();
+                              User().addMovieToFavorites(movie.id, _favoritesId);
+                            }
+                            else {
+                              print("errore"); // todo QUA VA INSERITO ALERT
+                            }
                           },
                         ),
                       ),
