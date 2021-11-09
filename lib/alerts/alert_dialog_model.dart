@@ -223,4 +223,51 @@ class MyAlertDialogs {
           );
         });
   }
+
+  showDialogDuplicatedFavoriteMovie(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Film già presente nei preferiti",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("Il titolo ci risulta già presente nella tua lista dei preferiti! Non c'è bisogno di aggiungerlo due volte!",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
+
+  showDialogLoginFirst(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Login non effettuato",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("Attenzione, per l'operazione scelta è necessario effettuare il login per l'identificazione utente.\n"
+                "Apri il menù a tendina a sinistra, e dirigiti alla pagina di login per aggiungere film ai preferiti!",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
 }

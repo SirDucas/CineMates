@@ -108,4 +108,26 @@ class User {
         ['$_idMovie', '$_idList']);
     await db.conn.close(); //chiusura connessione
   }
+
+  Future<bool> testDuplicateFavorite(int _idMovie, int _userId) async {
+    bool flag = true;
+    int idLista;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var query = await db.conn.query(
+        'select id from list where id_user = ? and isFavorites = 1', ['$_userId']);
+    for (var row in query) {
+      idLista = row['id'];
+    }
+    var querymovie = await db.conn.query(
+        'select id_movie from favmovie where id_list = ?', ['$idLista']);
+    for (var row in querymovie) {
+      if (_idMovie == row[0])
+        flag = false;
+    }
+    await db.conn.close();
+    return flag;
+  }
+
 }
+

@@ -9,7 +9,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_session/flutter_session.dart';
 
-import 'home_screen.dart';
+import 'activity_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           await Navigator.pushReplacement(
                               context,
                               new MaterialPageRoute(
-                                  builder: (BuildContext context) => HomeScreen()));
+                                  builder: (BuildContext context) => ActivityScreen()));
 
                         }
                         else {

@@ -1,3 +1,4 @@
+import 'package:cinemates/alerts/alert_dialog_model.dart';
 import 'package:cinemates/bloc/get_movie_videos_bloc.dart';
 import 'package:cinemates/database_model/user.dart';
 import 'package:cinemates/model/movie.dart';
@@ -24,6 +25,12 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
+
+  IconData isFavorite;
+  // if (User().testDuplicateFavorite())
+  //   isFavorites =
+
+  bool flagFav = true;
   int _userId;
   int _favoritesId;
   final Movie movie;
@@ -119,15 +126,22 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         height: 45.0,
                         child: FloatingActionButton(
                           backgroundColor: Style.Colors.secondColor,
-                          child: Icon(Icons.add),
+                          child: Icon(isFavorite),
                           onPressed: () async {
                             if ((await FlutterSession().get('log')) == 'yes') {
-                              _userId = await FlutterSession().get('token');
+                              _userId = await FlutterSession().get('token');          // _userid è una variabile non utilizzata al momento
                               _favoritesId = await Data().retrieveFavoritesList();
-                              User().addMovieToFavorites(movie.id, _favoritesId);
+                              flagFav = await User().testDuplicateFavorite(movie.id, _userId);
+                              if (flagFav == true) {
+                                User().addMovieToFavorites(movie.id, _favoritesId);
+                              }
+                              else {
+                                MyAlertDialogs().showDialogDuplicatedFavoriteMovie(context);
+                              }
                             }
+
                             else {
-                              print("errore"); // todo QUA VA INSERITO ALERT
+                              MyAlertDialogs().showDialogLoginFirst(context);
                             }
                           },
                         ),

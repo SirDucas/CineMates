@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:flutter_session/flutter_session.dart';
 
+import 'activity_screen.dart';
+
 dynamic token;
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -31,8 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (token == 'yes') {
       print(token);
       return buildHomeScreenLogout(context);
-    }
-    else {
+    } else {
       return buildHomeScreenLogin(context);
     }
   }
@@ -60,10 +60,7 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 padding: EdgeInsets.all(10.0),
                 child: Text(
                   "Cinemates Menu",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
               ),
             ),
@@ -73,10 +70,8 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => HomeScreen()
-                )
-                );
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             ListTile(
@@ -85,10 +80,8 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => SearchScreen()
-                )
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
               },
             ),
             ListTile(
@@ -125,7 +118,18 @@ Widget buildHomeScreenLogout(BuildContext context) {
               },
             ),
             ListTile(
-              title: const Text("token" ,
+              title: const Text(
+                "Feed",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ActivityScreen()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                "token",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
@@ -149,11 +153,9 @@ Widget buildHomeScreenLogout(BuildContext context) {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => SearchScreen()
-              ));
-            }
-        ),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()));
+            }),
       ],
     ),
     body: ListView(
@@ -186,10 +188,7 @@ Widget buildHomeScreenLogin(BuildContext context) {
                 padding: EdgeInsets.all(10.0),
                 child: Text(
                   "Cinemates Menu",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
               ),
             ),
@@ -199,10 +198,8 @@ Widget buildHomeScreenLogin(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => HomeScreen()
-                )
-                );
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             ListTile(
@@ -211,10 +208,8 @@ Widget buildHomeScreenLogin(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => SearchScreen()
-                )
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
               },
             ),
             ListTile(
@@ -223,10 +218,8 @@ Widget buildHomeScreenLogin(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => LoginScreen()
-                )
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               },
             ),
             ListTile(
@@ -235,14 +228,15 @@ Widget buildHomeScreenLogin(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => RegistrationScreen()
-                )
-                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RegistrationScreen()));
               },
             ),
             ListTile(
-              title: const Text("token" ,
+              title: const Text(
+                "token",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
@@ -286,11 +280,9 @@ Widget buildHomeScreenLogin(BuildContext context) {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => SearchScreen()
-              ));
-            }
-        ),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()));
+            }),
       ],
     ),
     body: ListView(
