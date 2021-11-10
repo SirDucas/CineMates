@@ -32,39 +32,20 @@ class _MovieSearchState extends State<MovieSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 10.0, top: 20.0),
-            child: Text("RISULTATI RICERCA:",
-                style: TextStyle(
-                    color: Style.Colors.titleColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0)),
-          ),
-          SizedBox(
-            height: 5.0,
-          ),
-          StreamBuilder<MovieResponse>(
-            stream: movieSearchBloc.subject.stream,
-            builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.error != null &&
-                    snapshot.data.error.length > 0) {
-                  return _buildErrorWidget(snapshot.data.error);
-                }
-                return _buildMovieSearchWidget(snapshot.data);
-              }
-              else if (snapshot.hasError) {
-                return _buildErrorWidget(snapshot.error);
-              }
-              else {
-                return _buildLoadingWidget();
-              }
-            },
-          )
-        ]
+    return StreamBuilder<MovieResponse>(
+      stream: movieSearchBloc.subject.stream,
+      builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.error != null && snapshot.data.error.length > 0) {
+            return _buildErrorWidget(snapshot.data.error);
+          }
+          return _buildMovieSearchWidget(snapshot.data);
+        } else if (snapshot.hasError) {
+          return _buildErrorWidget(snapshot.error);
+        } else {
+          return _buildLoadingWidget();
+        }
+      },
     );
   }
 
@@ -95,121 +76,148 @@ class _MovieSearchState extends State<MovieSearch> {
   Widget _buildMovieSearchWidget(MovieResponse data) {
     List<Movie> movies = data.movies;
     if (movies.length == 0) {
-      return Center(
-        child: Container(
-          child: Text("La ricerca non ha prodotto risultati", style: TextStyle(
-              fontSize: 10.0,
-              fontWeight: FontWeight.bold,
-              color: Style.Colors.secondColor
-          ),),
-        ),
-      );
+      return Scaffold(
+          backgroundColor: Style.Colors.mainColor,
+          appBar: AppBar(
+            backgroundColor: Style.Colors.mainColor,
+            centerTitle: true,
+            title: Text("Ricerca titoli"),
+            elevation: 10.0,
+          ),
+          body: Padding(
+            padding: EdgeInsets.all(10),
+            child: ListView(children: <Widget>[
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
+                  child: Text(
+                    'La ricerca non ha prodotto risultati',
+                    style: TextStyle(
+                        color: Style.Colors.secondColor,
+                        fontWeight: FontWeight.w100,
+                        fontSize: 20.0),
+                  )),
+              SizedBox(height: 15.0),
+              Center(child: Icon(Icons.error, size: 50, color: Colors.grey))
+            ]),
+          ));
     } else {
-      return Container(
-        height: 700,
-        padding: EdgeInsets.only(left: 10),
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: movies.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.only(
-                top: 10.0,
-                bottom: 10.0,
-                right: 10.0,
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => MovieDetailScreen(movie: movies[index])
-                  ));
-                },
-                  child: Row(
-                    children: <Widget>[
-                      movies[index].poster == null
-                          ? Container(
-                        width: 120.0,
-                        height: 180.0,
-                        decoration: BoxDecoration(
-                            color: Style.Colors.secondColor,
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(2.0)),
-                            shape: BoxShape.rectangle),
-                        child: Column(
-                          children: <Widget>[
-                            Icon(EvaIcons.filmOutline,
-                                color: Colors.white, size: 50.0)
-                          ],
-                        ),
-                      )
-                          : Container(
-                        width: 120.0,
-                        height: 180.0,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(2.0)),
-                            shape: BoxShape.rectangle,
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://image.tmdb.org/t/p/w200/" +
-                                        movies[index].poster),
-                                fit: BoxFit.cover)),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Container(
-                        width: 100,
-                        child: Text(
-                          movies[index].title,
-                          maxLines: 2,
-                          style: TextStyle(
-                              height: 1.4,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11.0),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            movies[index].rating.toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          RatingBar(
-                            itemSize: 12.0,
-                            initialRating: movies[index].rating / 2,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                            itemBuilder: (context, _) =>
-                                Icon(
-                                  EvaIcons.star,
-                                  color: Style.Colors.secondColor,
-                                ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-              ),
-            );
-          },
+      return Scaffold(
+        backgroundColor: Style.Colors.mainColor,
+        appBar: AppBar(
+          backgroundColor: Style.Colors.mainColor,
+          centerTitle: true,
+          title: Text("Ricerca titoli"),
+          elevation: 10.0,
         ),
+        body: Container(
+            padding: EdgeInsets.all(10.0),
+            child: ListView.separated(
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 15.0,
+                  );
+                },
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: movies.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MovieDetailScreen(movie: movies[index])));
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        movies[index].poster == null
+                            ? Container(
+                                width: 120.0,
+                                height: 180.0,
+                                decoration: BoxDecoration(
+                                    color: Style.Colors.secondColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(2.0)),
+                                    shape: BoxShape.rectangle),
+                                child: Column(
+                                  children: <Widget>[
+                                    Icon(EvaIcons.filmOutline,
+                                        color: Colors.white, size: 50.0)
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                width: 120.0,
+                                height: 180.0,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(2.0)),
+                                    shape: BoxShape.rectangle,
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            "https://image.tmdb.org/t/p/w200/" +
+                                                movies[index].poster),
+                                        fit: BoxFit.cover)),
+                              ),
+                        SizedBox(width: 10.0),
+                        Container(
+                          width: 170.0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                                Text(
+                                  movies[index].title,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              SizedBox(height: 20.0),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    movies[index].rating.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  RatingBar(
+                                    itemSize: 15.0,
+                                    initialRating: movies[index].rating / 2,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      EvaIcons.star,
+                                      color: Style.Colors.secondColor,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                      ],
+                    ),
+                  );
+                })),
       );
     }
   }
