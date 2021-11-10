@@ -25,11 +25,6 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-
-  IconData isFavorite;
-  // if (User().testDuplicateFavorite())
-  //   isFavorites =
-
   bool flagFav = true;
   int _userId;
   int _favoritesId;
@@ -62,7 +57,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       snapshot.data.error.length > 0) {
                     return _buildErrorWidget(snapshot.data.error);
                   }
-                  return _buildVideoWidget(snapshot.data);
+                  return _buildFloatingButtonsWidget(snapshot.data);
                 } else if (snapshot.hasError) {
                   return _buildErrorWidget(snapshot.error);
                 } else {
@@ -73,14 +68,14 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           slivers: <Widget>[
             SliverAppBar(
               backgroundColor: Style.Colors.mainColor,
-              expandedHeight: 200.0,
+              expandedHeight: 180.0,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   movie.title.length > 40
                       ? movie.title.substring(0, 37) + "..."
                       : movie.title,
-                  style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
                 ),
                 background: Stack(
                   children: <Widget>[
@@ -121,38 +116,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(
-                        width: 45.0,
-                        height: 45.0,
-                        child: FloatingActionButton(
-                          backgroundColor: Style.Colors.secondColor,
-                          child: Icon(isFavorite),
-                          onPressed: () async {
-                            if ((await FlutterSession().get('log')) == 'yes') {
-                              _userId = await FlutterSession().get('token');          // _userid è una variabile non utilizzata al momento
-                              _favoritesId = await Data().retrieveFavoritesList();
-                              flagFav = await User().testDuplicateFavorite(movie.id, _userId);
-                              if (flagFav == true) {
-                                User().addMovieToFavorites(movie.id, _favoritesId);
-                              }
-                              else {
-                                MyAlertDialogs().showDialogDuplicatedFavoriteMovie(context);
-                              }
-                            }
-
-                            else {
-                              MyAlertDialogs().showDialogLoginFirst(context);
-                            }
-                          },
-                        ),
-                      ),
                       SizedBox(width: 15.0),
-                      Text("Aggiungi titolo ai preferiti",
-                          style: TextStyle(
-                              color: Style.Colors.titleColor,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.w500,
-                              height: 1.5))
                     ],
                   ),
                 ),
@@ -166,7 +130,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       )),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10.0, top: 20.0),
+                  padding: EdgeInsets.only(left: 10.0, top: 10.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -199,9 +163,12 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 5.0,
+                ),
                 Padding(
                   padding: EdgeInsets.only(left: 10.0, top: 20.0),
-                  child: Text("OVERVIEW",
+                  child: Text("PANORAMICA",
                       style: TextStyle(
                         color: Style.Colors.titleColor,
                         fontWeight: FontWeight.w500,
@@ -212,7 +179,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   height: 5.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                   child: Text(
                     movie.overview,
                     style: TextStyle(
@@ -245,20 +212,58 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     );
   }
 
-  Widget _buildVideoWidget(VideoResponse data) {
+  Widget _buildFloatingButtonsWidget(VideoResponse data) {
     List<Video> videos = data.videos;
-    return FloatingActionButton(
-      backgroundColor: Style.Colors.secondColor,
-      child: Icon(Icons.play_arrow),
-      onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => VideoPlayerScreen(
-                    controller: YoutubePlayerController(
-                        initialVideoId: videos[0].key,
-                        flags: YoutubePlayerFlags(autoPlay: true)))));
-      },
+    return Row(
+      children: [
+        FloatingActionButton(
+          backgroundColor: Style.Colors.secondColor,
+          child: Icon(
+              /*
+              ((){
+                if (await User().testDuplicateFavorite(movie.id, _userId) == true)
+                  return Icons.favorite_border;
+                else
+                  return Icons.favorite;
+              }())
+              */
+              Icons.favorite, color: Colors.white, size: 20.0
+          ),
+          onPressed: () async {
+            if ((await FlutterSession().get('log')) == 'yes') {
+              _userId = await FlutterSession().get('token');
+              _favoritesId = await Data().retrieveFavoritesList();
+              flagFav = await User().testDuplicateFavorite(movie.id, _userId);
+              if (flagFav == true) {
+                await FlutterSession().set('movieId', movie.id);
+                User().addMovieToFavorites(movie.id, _favoritesId);
+                MyAlertDialogs().showDialogMovieAddedToFavorites(context);
+              }
+              else {
+                MyAlertDialogs().showDialogDuplicatedFavoriteMovie(context);
+              }
+            }
+
+            else {
+              MyAlertDialogs().showDialogLoginFirst(context);
+            }
+          },
+        ),
+        SizedBox(width: 15.0),
+        FloatingActionButton(
+          backgroundColor: Style.Colors.secondColor,
+          child: Icon(Icons.play_arrow),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => VideoPlayerScreen(
+                        controller: YoutubePlayerController(
+                            initialVideoId: videos[0].key,
+                            flags: YoutubePlayerFlags(autoPlay: true)))));
+          },
+        ),
+      ],
     );
   }
 }

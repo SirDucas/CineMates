@@ -1,7 +1,9 @@
+import 'package:cinemates/database_model/user.dart';
 import 'package:cinemates/screens/home_screen.dart';
 import 'package:cinemates/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
+import 'package:flutter_session/flutter_session.dart';
 
 class MyAlertDialogs {
   Widget cancelButton = TextButton(
@@ -225,6 +227,7 @@ class MyAlertDialogs {
   }
 
   showDialogDuplicatedFavoriteMovie(BuildContext context) {
+    SnackBar snackBar = SnackBar(content: Text('Titolo rimosso dai tuoi preferiti!'));
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -233,7 +236,37 @@ class MyAlertDialogs {
             title: Text("Film già presente nei preferiti",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("Il titolo ci risulta già presente nella tua lista dei preferiti! Non c'è bisogno di aggiungerlo due volte!",
+            content: Text("Il titolo ci risulta già presente nella tua lista dei preferiti! Non c'è bisogno di aggiungerlo due volte!\n\n"
+                "Vuoi rimuoverlo dai preferiti?",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Annulla"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+              TextButton(
+                  child: Text("Rimuovi dai preferiti"),
+                  onPressed: () async {
+                    int _userId = await FlutterSession().get('token');
+                    int _movieId = await FlutterSession().get('movieId');
+                    User().removeMovieFavorite(_movieId, _userId);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  })
+            ],
+          );
+        });
+  }
+
+  showDialogMovieAddedToFavorites(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Titolo aggiunto ai tuoi preferiti!",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -261,6 +294,14 @@ class MyAlertDialogs {
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
+              TextButton(
+                  child: Text("Login ora!"),
+                  onPressed: () async {
+                    await Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => LoginScreen()));
+                  }),
               TextButton(
                   child: Text("Capito!"),
                   onPressed: () {

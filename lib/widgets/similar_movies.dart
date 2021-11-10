@@ -36,7 +36,7 @@ class _SimilarMoviesState extends State<SimilarMovies> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(left: 10.0, top: 20.0),
-          child: Text("SIMILAR MOVIES", style: TextStyle(
+          child: Text("TITOLI CORRELATI", style: TextStyle(
               color: Style.Colors.titleColor,
               fontWeight: FontWeight.w500,
               fontSize: 12.0

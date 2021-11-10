@@ -91,7 +91,13 @@ class _MovieInfoState extends State<MovieInfo> {
                     height: 10.0,
                   ),
                   Text(
-                    detail.budget.toString() + "\$",
+                      (() {
+                        if (detail.budget.toString() != '0')
+                          return detail.budget.toString() + "\$";
+                        else {
+                          return "N/D";
+                        }
+                      }()),
                     style: TextStyle(
                       color: Style.Colors.secondColor,
                       fontWeight: FontWeight.bold,
@@ -103,7 +109,7 @@ class _MovieInfoState extends State<MovieInfo> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
-                  Text("DURATION", style: TextStyle(
+                  Text("DURATA", style: TextStyle(
                       color: Style.Colors.titleColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 12.0
@@ -112,7 +118,13 @@ class _MovieInfoState extends State<MovieInfo> {
                     height: 10.0,
                   ),
                   Text(
-                    detail.runtime.toString() + "min",
+                    (() {
+                      if (detail.runtime.toString() != '0')
+                        return detail.runtime.toString() + "min";
+                      else {
+                        return "N/D";
+                      }
+                    }()),
                     style: TextStyle(
                         color: Style.Colors.secondColor,
                         fontWeight: FontWeight.bold,
@@ -124,7 +136,7 @@ class _MovieInfoState extends State<MovieInfo> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
-                  Text("RELEASE DATE", style: TextStyle(
+                  Text("DATA RILASCIO", style: TextStyle(
                       color: Style.Colors.titleColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 12.0
@@ -154,7 +166,7 @@ class _MovieInfoState extends State<MovieInfo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget> [
               Text(
-                "GENRES", style: TextStyle(
+                "TAG GENERI", style: TextStyle(
                 color: Style.Colors.titleColor,
                 fontWeight: FontWeight.w500,
                 fontSize: 12.0
