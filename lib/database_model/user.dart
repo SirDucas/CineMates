@@ -1,6 +1,7 @@
 import 'package:cinemates/database_model/database_connection.dart';
 import 'package:cinemates/database_model/check.dart';
 import 'package:flutter_session/flutter_session.dart';
+import 'package:string_validator/string_validator.dart';
 
 class User {
   Future<bool> userLogin(String _email, String _password) async {
@@ -56,7 +57,8 @@ class User {
     await db.conn.close(); //chiusura connessione
     return idUser;
   }
-  //metodi di crazione liste
+
+  //metodi di crazione liste e rimozione
   void createFavoriteList(int _idUser) async {
     var db = new DatabaseConnection();
     await db.initConnection();
@@ -67,15 +69,38 @@ class User {
     return;
   }
 
-  //da finire e fare controlli titolo e descrizione
   void createCustomList(int _idUser, String _description, String _title) async {
     var db = new DatabaseConnection();
     await db.initConnection();
-    var favorites = await db.conn.query(
-        'insert into list (id_user,description,title,isFavorites) values (?, ?, ?, ?)',
-        ['$_idUser', "La mia lista preferiti", "Preferiti", 1]);
-    await db.conn.close();
-    return;
+    if (_title.isEmpty) {
+      print("errore il titolo è obbligatorio!"); // to-do alert
+      return;
+    } else {
+      //con l'escape trasformo i caratteri speciali per maggior sicurezza
+      _description = escape(_description);
+      _title = escape(_title);
+      var custom = await db.conn.query(
+          'insert into list (id_user,description,title,isFavorites) values (?, ?, ?, ?)',
+          ['$_idUser', '$_description', '$_title', 0]);
+      await db.conn.close();
+      return;
+    }
+  }
+
+  //eliminazione customlist
+  void deleteCustomList(int _idList) async {
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    //cancello tutti i film dalla lista
+      var delete = await db.conn.query(
+          'DELETE FROM favmovie where id_list = ?',
+          ['$_idList']);
+      //elimino la lista
+      var deleteList = await db.conn.query(
+          'DELETE FROM list where id = ?',
+          ['$_idList']);
+      await db.conn.close();
+      return;
   }
 
   //metodi di aggiunta favoriti
@@ -176,5 +201,4 @@ class User {
         ['$_idList', '$_idMovie']);
     await db.conn.close();
   }
-
 }
