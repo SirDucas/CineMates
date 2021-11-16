@@ -42,14 +42,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget _buildFavoritesWidget(List<Favorite> data) {
     List<Favorite> favorites = [];
     favorites = List.from(data);
-    print(favorites);
     if (favorites.length == 0) {
       return Scaffold(
           backgroundColor: Style.Colors.mainColor,
           appBar: AppBar(
             backgroundColor: Style.Colors.mainColor,
             centerTitle: true,
-            title: Text("I tuoi preferiti"),
+            title: Text("I tuoi Preferiti"),
             elevation: 10.0,
           ),
           body: Padding(
@@ -156,19 +155,28 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget _buildLoadingWidget() {
-    return Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-          SizedBox(
-            height: 25.0,
-            width: 25.0,
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              strokeWidth: 4.0,
-            ),
-          )
-        ]));
+    return Scaffold(
+      backgroundColor: Style.Colors.mainColor,
+      appBar: AppBar(
+        backgroundColor: Style.Colors.mainColor,
+        centerTitle: true,
+        title: Text("I tuoi Preferiti"),
+        elevation: 10.0,
+      ),
+      body: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            SizedBox(
+              height: 25.0,
+              width: 25.0,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                strokeWidth: 4.0,
+              ),
+            )
+          ])),
+    );
   }
 
   Future<List<Favorite>> _createFavorites() async {

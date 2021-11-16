@@ -1,3 +1,4 @@
+import 'package:cinemates/screens/lists_screen.dart';
 import 'package:cinemates/screens/login_screen.dart';
 import 'package:cinemates/screens/registration_screen.dart';
 import 'package:cinemates/screens/search_screen.dart';
@@ -104,8 +105,8 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                // cambio schermata 2
-                // per chiusura menu a tendina: Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ListsScreen()));
               },
             ),
             ListTile(

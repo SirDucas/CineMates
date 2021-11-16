@@ -1,5 +1,6 @@
 import 'package:cinemates/database_model/database_connection.dart';
 import 'package:cinemates/database_model/check.dart';
+import 'package:cinemates/model/custom_list.dart';
 import 'package:cinemates/model/favorite.dart';
 import 'package:cinemates/session/session_model.dart';
 import 'package:flutter/material.dart';
@@ -336,5 +337,24 @@ class User {
       favorites.add(movie);
     }
     return favorites;
+  }
+
+  Future<List<CustomList>> retrieveCustomLists(int _userId) async {
+    int idList;
+    String title;
+    String description;
+    List<CustomList> customLists = [];
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result =
+        await db.conn.query('select id,description,title from list where id_user = ? and isFavorites = 0', ['$_userId']);
+    for (var row in result) {
+      idList = row['id'];
+      description = row['description'];
+      title = row['title'];
+      CustomList list = new CustomList(idList, title, description);
+      customLists.add(list);
+    }
+    return customLists;
   }
 }

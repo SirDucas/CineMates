@@ -334,4 +334,98 @@ class MyAlertDialogs {
           );
         });
   }
+
+  showDialogCreateCustomListForm(BuildContext context) {
+    TextEditingController _titleController = TextEditingController();
+    TextEditingController _descriptionController = TextEditingController();
+    SnackBar snackBar = SnackBar(content: Text('La lista è stata creata!'));
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Crea lista",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: _titleController,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14),
+                    cursorColor: Style.Colors.secondColor,
+                    cursorWidth: 1.5,
+                    decoration: InputDecoration(
+                      hintText: "Titolo...",
+                      hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 14.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Style.Colors.secondColor),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: _descriptionController,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14),
+                    cursorColor: Style.Colors.secondColor,
+                    cursorWidth: 1.5,
+                    decoration: InputDecoration(
+                      hintText: "Breve descrizione...",
+                      hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 14.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Style.Colors.secondColor),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                  child: Text("Annulla"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+              TextButton(
+                  child: Text("Crea la lista!"),
+                  onPressed: () async {
+                    int _idUser = await FlutterSession().get('token');
+                    User().createCustomList(_idUser, _descriptionController.text, _titleController.text);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  })
+            ],
+          );
+        });
+  }
 }
