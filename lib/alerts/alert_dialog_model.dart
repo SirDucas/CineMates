@@ -311,4 +311,27 @@ class MyAlertDialogs {
           );
         });
   }
+
+  showDialogRemovedFromList(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Rimozione titolo",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("Il titolo è stato rimosso con successo dalla lista.",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
 }

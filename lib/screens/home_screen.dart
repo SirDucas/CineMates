@@ -1,6 +1,7 @@
 import 'package:cinemates/screens/login_screen.dart';
 import 'package:cinemates/screens/registration_screen.dart';
 import 'package:cinemates/screens/search_screen.dart';
+import 'package:cinemates/screens/favorites_screen.dart';
 import 'package:cinemates/widgets/genres.dart';
 import 'package:cinemates/widgets/now_playing.dart';
 import 'package:cinemates/widgets/persons.dart';
@@ -70,8 +71,8 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             ListTile(
@@ -113,8 +114,8 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                // cambio schermata 2
-                // per chiusura menu a tendina: Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FavoritesScreen()));
               },
             ),
             ListTile(
@@ -125,17 +126,6 @@ Widget buildHomeScreenLogout(BuildContext context) {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ActivityScreen()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                "token",
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () {
-                print(token);
-                // cambio schermata 2
-                // per chiusura menu a tendina: Navigator.pop(context);
               },
             ),
           ],
@@ -234,37 +224,6 @@ Widget buildHomeScreenLogin(BuildContext context) {
                         builder: (context) => RegistrationScreen()));
               },
             ),
-            ListTile(
-              title: const Text(
-                "token",
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () {
-                print(token);
-                // cambio schermata 2
-                // per chiusura menu a tendina: Navigator.pop(context);
-              },
-            ),
-            // ListTile(
-            //   title: const Text(
-            //     "Liste personalizzate",
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            //   onTap: () {
-            //     // cambio schermata 2
-            //     // per chiusura menu a tendina: Navigator.pop(context);
-            //   },
-            // ),
-            // ListTile(
-            //   title: const Text(
-            //     "Preferiti",
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            //   onTap: () {
-            //     // cambio schermata 2
-            //     // per chiusura menu a tendina: Navigator.pop(context);
-            //   },
-            // ),
           ],
         ),
       ),

@@ -1,5 +1,8 @@
 import 'package:cinemates/database_model/database_connection.dart';
 import 'package:cinemates/database_model/check.dart';
+import 'package:cinemates/model/favorite.dart';
+import 'package:cinemates/session/session_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:string_validator/string_validator.dart';
 
@@ -92,24 +95,23 @@ class User {
     var db = new DatabaseConnection();
     await db.initConnection();
     //cancello tutti i film dalla lista
-      var delete = await db.conn.query(
-          'DELETE FROM favmovie where id_list = ?',
-          ['$_idList']);
-      //elimino la lista
-      var deleteList = await db.conn.query(
-          'DELETE FROM list where id = ?',
-          ['$_idList']);
-      await db.conn.close();
-      return;
+    var delete = await db.conn
+        .query('DELETE FROM favmovie where id_list = ?', ['$_idList']);
+    //elimino la lista
+    var deleteList =
+        await db.conn.query('DELETE FROM list where id = ?', ['$_idList']);
+    await db.conn.close();
+    return;
   }
 
   //metodi di aggiunta favoriti
-  void addMovieToFavorites(int _idMovie, int _idList) async {
+  void addMovieToFavorites(
+      int _idMovie, String _title, String _poster, int _idList) async {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'insert into favmovie (id_movie,id_list) values (?, ?)',
-        ['$_idMovie', '$_idList']);
+        'insert into favmovie (id_movie,title,poster,id_list) values (?, ?, ?, ?)',
+        ['$_idMovie', '$_title', '$_poster', '$_idList']);
     await db.conn.close(); //chiusura connessione
   }
 
@@ -200,5 +202,118 @@ class User {
         'DELETE FROM favmovie where id_list = ? AND id_movie = ?',
         ['$_idList', '$_idMovie']);
     await db.conn.close();
+  }
+
+  Future<List<int>> retrieveMoviesIdFromList(int _userId) async {
+    List<int> movies;
+    int idList;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var query = await db.conn
+        .query('select id from list where id_user = ?', ['$_userId']);
+    for (var row in query) {
+      idList = row['id'];
+    }
+    var result = await db.conn
+        .query('select id_movie from favmovie where id_list = ?', ['$idList']);
+    for (var row in result) {
+      movies.add(row['id_movie']);
+    }
+
+    await db.conn.close();
+
+    return movies;
+  }
+
+  Future<List<int>> retrieveMoviesIdFromFavorites(int _userId) async {
+    List<int> movies = [];
+    int idList;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var query = await db.conn.query(
+        'select id from list where id_user = ? and isFavorites = 1',
+        ['$_userId']);
+    for (var row in query) {
+      idList = row['id'];
+    }
+    var result = await db.conn
+        .query('select id_movie from favmovie where id_list = ?', ['$idList']);
+    for (var row in result) {
+      movies.add(row['id_movie']);
+    }
+
+    await db.conn.close();
+
+    return movies;
+  }
+
+  Future<List<int>> retrieveListId(int _userId) async {
+    List<int> customLists;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select id from list where id_user = ?', ['$_userId']);
+    for (var row in result) {
+      customLists.add(row['id']);
+    }
+
+    await db.conn.close();
+
+    return customLists;
+  }
+
+  Future<String> retrieveListDescription(int idList) async {
+    String description;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select description from list where id = ?', ['$idList']);
+    for (var row in result) {
+      description = (row['description']);
+    }
+
+    await db.conn.close();
+
+    return description;
+  }
+
+  Future<String> retrieveListTitle(int idList) async {
+    String title;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result =
+        await db.conn.query('select title from list where id = ?', ['$idList']);
+    for (var row in result) {
+      title = (row['title']);
+    }
+
+    await db.conn.close();
+
+    return title;
+  }
+  
+  Future<List<Favorite>> retrieveFavorites(int _userId) async {
+    int movieId;
+    String title;
+    String poster;
+    List<Favorite> favorites = [];
+    int idList;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var query =
+        await db.conn.query('select id from list where id_user = ? and isFavorites = 1', ['$_userId']);
+    for (var row in query) {
+      idList = row['id'];
+    }
+    var result = await db.conn
+        .query('select id_movie,title,poster from favmovie where id_list = ?', ['$idList']);
+    for (var row in result) {
+      movieId = row['id_movie'];
+      title = row['title'];
+      poster = row['poster'];
+      Favorite movie = new Favorite(movieId, title, poster);
+      favorites.add(movie);
+    }
+    return favorites;
   }
 }

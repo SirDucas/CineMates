@@ -236,7 +236,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
               flagFav = await User().testDuplicateFavorite(movie.id, _userId);
               if (flagFav == true) {
                 await FlutterSession().set('movieId', movie.id);
-                User().addMovieToFavorites(movie.id, _favoritesId);
+                User().addMovieToFavorites(movie.id, movie.title, movie.poster, _favoritesId);
                 MyAlertDialogs().showDialogMovieAddedToFavorites(context);
               }
               else {
