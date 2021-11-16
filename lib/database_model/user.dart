@@ -2,6 +2,7 @@ import 'package:cinemates/database_model/database_connection.dart';
 import 'package:cinemates/database_model/check.dart';
 import 'package:cinemates/model/custom_list.dart';
 import 'package:cinemates/model/favorite.dart';
+import 'package:cinemates/model/movie.dart';
 import 'package:cinemates/session/session_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
@@ -129,6 +130,16 @@ class User {
   //metodi di aggiunta favoriti
   void addMovieToFavorites(
       int _idMovie, String _title, String _poster, int _idList) async {
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'insert into favmovie (id_movie,title,poster,id_list) values (?, ?, ?, ?)',
+        ['$_idMovie', '$_title', '$_poster', '$_idList']);
+    await db.conn.close(); //chiusura connessione
+  }
+
+  void addMovieToCustomList(int _idMovie, String _title, String _poster, String _titleList) async {
+    int _idList = await retrieveSingleListIdByTitle(_titleList);
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
@@ -299,19 +310,19 @@ class User {
     return description;
   }
 
-  Future<String> retrieveListTitle(int idList) async {
-    String title;
+  Future<List<String>> retrieveListTitles(int _userId) async {
+    List<String> titles = [];
     var db = new DatabaseConnection();
     await db.initConnection();
     var result =
-        await db.conn.query('select title from list where id = ?', ['$idList']);
+        await db.conn.query('select title from list where id_user = ?', ['$_userId']);
     for (var row in result) {
-      title = (row['title']);
+      titles.add(row['title']);
     }
 
     await db.conn.close();
 
-    return title;
+    return titles;
   }
   
   Future<List<Favorite>> retrieveFavorites(int _userId) async {
@@ -356,5 +367,23 @@ class User {
       customLists.add(list);
     }
     return customLists;
+  }
+
+  Future<List<Movie>> retrieveMovieFromCustomList() {
+
+  }
+
+  Future<int> retrieveSingleListIdByTitle(String _titleList) async {
+    int idList;
+    int userId = await FlutterSession().get('token');
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select id from list where title = ? and id_user = ?', ['$_titleList', '$userId']);
+    for (var row in result) {
+      idList = row['id'];
+    }
+    await db.conn.close();
+    return idList;
   }
 }

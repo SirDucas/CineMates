@@ -72,8 +72,8 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                // Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             ListTile(

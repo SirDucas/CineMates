@@ -214,19 +214,24 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   Widget _buildFloatingButtonsWidget(VideoResponse data) {
     List<Video> videos = data.videos;
+    List<String> titlesList = [];
     return Row(
       children: [
         FloatingActionButton(
           backgroundColor: Style.Colors.secondColor,
           child: Icon(
-              /*
-              ((){
-                if (await User().testDuplicateFavorite(movie.id, _userId) == true)
-                  return Icons.favorite_border;
-                else
-                  return Icons.favorite;
-              }())
-              */
+              Icons.add, color: Colors.white, size: 30.0
+          ),
+          onPressed: () async {
+            _userId = await FlutterSession().get('token');
+            titlesList = await User().retrieveListTitles(_userId);
+            MyAlertDialogs().showDialogAddMovieInCustomList(context, movie.id, movie.title, movie.poster, titlesList);
+          }
+        ),
+        SizedBox(width: 15.0),
+        FloatingActionButton(
+          backgroundColor: Style.Colors.secondColor,
+          child: Icon(
               Icons.favorite, color: Colors.white, size: 20.0
           ),
           onPressed: () async {

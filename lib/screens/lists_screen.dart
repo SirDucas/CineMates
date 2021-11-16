@@ -42,7 +42,6 @@ class _ListsScreenState extends State<ListsScreen> {
   }
 
   Widget _buildCustomListsWidget(List<CustomList> data) {
-    final _formKey = GlobalKey<FormState>();
     List<CustomList> customLists = [];
     customLists = List.from(data);
     if (customLists.length == 0) {
@@ -50,13 +49,15 @@ class _ListsScreenState extends State<ListsScreen> {
           backgroundColor: Style.Colors.mainColor,
           floatingActionButton: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: FloatingActionButton(
+            child: FloatingActionButton.extended(
+              icon: Icon(Icons.add),
+              label: Text("Crea lista"),
               backgroundColor: Style.Colors.secondColor,
               onPressed: () {
                 MyAlertDialogs().showDialogCreateCustomListForm(context);
-                setState(() {});
+                setState(() {
+                });
               },
-              child: Icon(Icons.add),
             ),
           ),
           appBar: AppBar(
@@ -87,14 +88,15 @@ class _ListsScreenState extends State<ListsScreen> {
         backgroundColor: Style.Colors.mainColor,
         floatingActionButton: Padding(
           padding: const EdgeInsets.all(15.0),
-          child: FloatingActionButton(
+          child: FloatingActionButton.extended(
+            icon: Icon(Icons.add),
+            label: Text("Crea lista"),
             backgroundColor: Style.Colors.secondColor,
             onPressed: () {
               MyAlertDialogs().showDialogCreateCustomListForm(context);
               setState(() {
               });
             },
-            child: Icon(Icons.add),
           ),
         ),
         appBar: AppBar(

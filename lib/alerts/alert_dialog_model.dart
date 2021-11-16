@@ -1,4 +1,5 @@
 import 'package:cinemates/database_model/user.dart';
+import 'package:cinemates/model/custom_list.dart';
 import 'package:cinemates/screens/home_screen.dart';
 import 'package:cinemates/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -424,6 +425,53 @@ class MyAlertDialogs {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   })
+            ],
+          );
+        });
+  }
+
+  showDialogAddMovieInCustomList(BuildContext context, int movieId, String title, String poster, List<String> titles) async {
+    SnackBar snackBar = SnackBar(content: Text('Film aggiunto alla lista!'));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Seleziona lista in cui aggiungere il titolo",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: ListView.separated(
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 25.0,
+                );
+              },
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: titles.length,
+              itemBuilder: (context, index) {
+                if (titles.length == 0) {
+                  return Text("Non hai ancora creato delle liste personalizzate");
+                }
+                else {
+                  return GestureDetector(
+                    child: Text(titles[index], style: TextStyle(color: Colors.white, fontSize: 18.0, height: 1.5)),
+                    onTap: () {
+                      User().addMovieToCustomList(movieId, title, poster, titles[index]);
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                  );
+                }
+
+              }
+            ),
+            actions: [
+              TextButton(
+                  child: Text("Annulla"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
             ],
           );
         });
