@@ -36,6 +36,7 @@ class User {
       return;
     else {
       _password = Check().generateMd5(_password); //converto password a MD5.
+      _username = escape(_username); //sicurezza su stringa username
       var db = new DatabaseConnection();
       await db.initConnection();
       var result = await db.conn.query(
@@ -59,6 +60,26 @@ class User {
     }
     await db.conn.close(); //chiusura connessione
     return idUser;
+  }
+
+  void changePassword(String _newpassword, int _userID) async {
+    if (_userID = await FlutterSession().get('token')) {
+      if ((_newpassword.isEmpty) ||
+          (Check().checkPasswordLength(_newpassword) == false))
+        return;
+      else {
+        var db = new DatabaseConnection();
+        await db.initConnection();
+        _newpassword = Check().generateMd5(_newpassword); //converto password a MD5.
+        var change= await db.conn.query(
+            'UPDATE user SET password = ? WHERE id = ?',
+            ['$_newpassword','$_userID']);
+        await db.conn.close();
+        return;
+      }
+    } else {
+      return;
+    }
   }
 
   //metodi di crazione liste e rimozione
