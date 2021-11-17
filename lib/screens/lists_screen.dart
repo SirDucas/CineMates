@@ -2,7 +2,9 @@ import 'package:cinemates/alerts/alert_dialog_model.dart';
 import 'package:cinemates/database_model/user.dart';
 import 'package:cinemates/model/custom_list.dart';
 import 'package:cinemates/model/favorite.dart';
+import 'package:cinemates/screens/movie_custom_list_screen.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:flutter_session/flutter_session.dart';
@@ -55,8 +57,7 @@ class _ListsScreenState extends State<ListsScreen> {
               backgroundColor: Style.Colors.secondColor,
               onPressed: () {
                 MyAlertDialogs().showDialogCreateCustomListForm(context);
-                setState(() {
-                });
+                setState(() {});
               },
             ),
           ),
@@ -94,8 +95,7 @@ class _ListsScreenState extends State<ListsScreen> {
             backgroundColor: Style.Colors.secondColor,
             onPressed: () {
               MyAlertDialogs().showDialogCreateCustomListForm(context);
-              setState(() {
-              });
+              setState(() {});
             },
           ),
         ),
@@ -109,26 +109,67 @@ class _ListsScreenState extends State<ListsScreen> {
             padding: EdgeInsets.all(10.0),
             child: ListView.separated(
                 separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: 15.0);
+                  return SizedBox(height: 25.0);
                 },
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemCount: customLists.length,
                 itemBuilder: (context, index) {
-                  return Row(
-                    children: <Widget>[
-                      Container(
-                        width: 170.0,
-                        child: Text(
-                          customLists[index].title,
-                          maxLines: 2,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0),
+                  return GestureDetector(
+                      child: Container(
+                        // decoration: BoxDecoration(
+                        //   border: Border.all(
+                        //     color: Colors.black38,
+                        //   ),
+                        //   borderRadius: BorderRadius.circular(15),
+                        // ),
+                        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  customLists[index].title,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0),
+                                ),
+                                SizedBox(height: 12.0),
+                                Text(
+                                  customLists[index].description,
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 10.0
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MovieCustomListScreen(title: customLists[index].title)));
+                                },
+                                icon: Icon(Icons.arrow_forward),
+                                color: CupertinoColors.white,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MovieCustomListScreen(title: customLists[index].title)));
+                    },
                   );
                 })),
       );
@@ -138,9 +179,9 @@ class _ListsScreenState extends State<ListsScreen> {
   Widget _buildErrorWidget(String error) {
     return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text("Error occurred: $error")],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[Text("Error occurred: $error")],
+    ));
   }
 
   Widget _buildLoadingWidget() {
@@ -156,15 +197,15 @@ class _ListsScreenState extends State<ListsScreen> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  height: 25.0,
-                  width: 25.0,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    strokeWidth: 4.0,
-                  ),
-                )
-              ])),
+            SizedBox(
+              height: 25.0,
+              width: 25.0,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                strokeWidth: 4.0,
+              ),
+            )
+          ])),
     );
   }
 
