@@ -228,7 +228,8 @@ class User {
     await db.conn.close();
   }
 
-  void removeMovieCustomList(int _idMovie, int _idList) async {
+  void removeMovieCustomList(int _idMovie, String _title) async {
+    int _idList = await retrieveSingleListIdByTitle(_title);
     var db = new DatabaseConnection();
     await db.initConnection();
     var delete = await db.conn.query(
@@ -369,7 +370,29 @@ class User {
     return customLists;
   }
 
-  Future<List<Movie>> retrieveMovieFromCustomList() {
+  Future<List<Favorite>> retrieveMovieFromCustomList(int _userId, String _title) async {
+    int movieId;
+    String title;
+    String poster;
+    List<Favorite> favorites = [];
+    int idList;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var query =
+        await db.conn.query('select id from list where id_user = ? and title = ?', ['$_userId', '$_title']);
+    for (var row in query) {
+      idList = row['id'];
+    }
+    var result = await db.conn
+        .query('select id_movie,title,poster from favmovie where id_list = ?', ['$idList']);
+    for (var row in result) {
+      movieId = row['id_movie'];
+      title = row['title'];
+      poster = row['poster'];
+      Favorite movie = new Favorite(movieId, title, poster);
+      favorites.add(movie);
+    }
+    return favorites;
 
   }
 
