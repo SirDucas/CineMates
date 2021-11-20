@@ -440,31 +440,34 @@ class MyAlertDialogs {
             title: Text("Seleziona lista in cui aggiungere il titolo",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: ListView.separated(
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: 25.0,
-                );
-              },
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: titles.length,
-              itemBuilder: (context, index) {
-                if (titles.length == 0) {
-                  return Text("Non hai ancora creato delle liste personalizzate");
-                }
-                else {
-                  return GestureDetector(
-                    child: Text(titles[index], style: TextStyle(color: Colors.white, fontSize: 18.0, height: 1.5)),
-                    onTap: () {
-                      User().addMovieToCustomList(movieId, title, poster, titles[index]);
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
+            content: Container(
+              width: double.maxFinite,
+              child: ListView.separated(
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 25.0,
                   );
-                }
+                },
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: titles.length,
+                itemBuilder: (context, index) {
+                  if (titles.length == 0) {
+                    return Text("Non hai ancora creato delle liste personalizzate");
+                  }
+                  else {
+                    return GestureDetector(
+                      child: Text(titles[index], style: TextStyle(color: Colors.white, fontSize: 18.0, height: 1.5)),
+                      onTap: () {
+                        User().addMovieToCustomList(movieId, title, poster, titles[index]);
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                    );
+                  }
 
-              }
+                }
+              ),
             ),
             actions: [
               TextButton(
