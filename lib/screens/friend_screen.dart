@@ -31,8 +31,15 @@ class _FriendScreenState extends State<FriendScreen> {
               Text("Richieste di collegamento",
                 style: TextStyle(color: Colors.white, fontSize: 18.0),)
           ),
-          SizedBox(height: 15.0),
+          SizedBox(height: 5.0),
           RecievedRequests(),
+          SizedBox(height: 15.0),
+          Center(
+              child:
+              Text("Lista amici",
+                style: TextStyle(color: Colors.white, fontSize: 18.0),)
+          ),
+          SizedBox(height: 5.0),
           FriendList(),
         ],
       ),

@@ -40,54 +40,66 @@ class _RecievedRequestsState extends State<RecievedRequests> {
   Widget _buildRecievedRequestsWidget(List<String> data) {
     List<String> recievedRequests = [];
     recievedRequests = List.from(data);
-    return Container(
-        padding: EdgeInsets.all(10.0),
-        child: ListView.separated(
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(height: 25.0);
-            },
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: recievedRequests.length,
-            itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        recievedRequests[index],
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            TextButton(
-                              child: Text("Accetta"),
-                              onPressed: () async {
-                                Friendship()
-                                    .acceptFriendship(recievedRequests[index]);
-                                setState(() {});
-                              },
-                            ),
-                            TextButton(
-                              child: Text("Rifiuta"),
-                              onPressed: () {
-                                Friendship()
-                                    .rejectFriendship(recievedRequests[index]);
-                                setState(() {});
-                              },
-                            ),
-                          ],
+    if (recievedRequests.length == 0) {
+      return Center(
+        child: Container(
+            padding: EdgeInsets.all(10.0),
+            child: Text("Non hai richieste di amicizia",
+              style: TextStyle(fontSize: 10.0, color: Colors.white),)
+        ),
+      );
+    }
+    else {
+      return Container(
+          padding: EdgeInsets.all(10.0),
+          child: ListView.separated(
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(height: 25.0);
+              },
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: recievedRequests.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          recievedRequests[index],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0),
                         ),
-                      )
-                    ]),
-              );
-            }));
+                        Container(
+                          child: Row(
+                            children: [
+                              TextButton(
+                                child: Text("Accetta"),
+                                onPressed: () async {
+                                  Friendship()
+                                      .acceptFriendship(recievedRequests[index]);
+                                  setState(() {});
+                                },
+                              ),
+                              TextButton(
+                                child: Text("Rifiuta"),
+                                onPressed: () {
+                                  Friendship()
+                                      .rejectFriendship(recievedRequests[index]);
+                                  setState(() {});
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ]),
+                );
+              }));
+    }
+
   }
 
   Widget _buildErrorWidget(String error) {
