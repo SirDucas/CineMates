@@ -12,16 +12,13 @@ class Friendship {
     int _userId = await FlutterSession().get('token'); // mittente
     int _friendId = await User().retrieveIdUserByUsername(username); // ricevente
     bool _isFriend = await isFriend(_userId, _friendId);
-    bool validUsername = await Check().checkUsername(username);
-    if (_isFriend == false && validUsername == true) {
+    if (_isFriend == false) {
       var db = new DatabaseConnection();
       await db.initConnection();
       var result = await db.conn.query(
           'insert into friendship (id_user1,id_user2) values (?,?)', ['$_userId', '$_friendId']
       );
       await db.conn.close();
-    } else if (validUsername == false) {
-      print("Username inserito non è valido");
     }
     else {
       print("amicizia già presente o sospesa");
@@ -53,6 +50,7 @@ class Friendship {
 
   Future<List<String>> retrieveFriendshipSuspended() async {
     String username;
+    int _friendId;
     int _userId = await FlutterSession().get('token'); // ricevente
     List<String> friendship = [];
     var db = new DatabaseConnection();
@@ -61,6 +59,7 @@ class Friendship {
         'select id_user1 from friendship where id_user2 = ? and isSuspended = 1', ['$_userId']
     );
     for (var row in result) {
+      _friendId = row['id_user1'];
       username = await User().retrieveUsernameById(row['id_user1']);
       friendship.add(username);
     }

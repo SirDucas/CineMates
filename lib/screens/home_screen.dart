@@ -1,3 +1,4 @@
+import 'package:cinemates/screens/friend_screen.dart';
 import 'package:cinemates/screens/lists_screen.dart';
 import 'package:cinemates/screens/login_screen.dart';
 import 'package:cinemates/screens/registration_screen.dart';
@@ -78,25 +79,12 @@ Widget buildHomeScreenLogout(BuildContext context) {
             ),
             ListTile(
               title: const Text(
-                "Cerca Titoli",
+                "Preferiti",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SearchScreen()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                "Logout",
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () async {
-                token = await FlutterSession().set('log', 'no');
-                await Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => HomeScreen()));
+                    MaterialPageRoute(builder: (context) => FavoritesScreen()));
               },
             ),
             ListTile(
@@ -111,22 +99,35 @@ Widget buildHomeScreenLogout(BuildContext context) {
             ),
             ListTile(
               title: const Text(
-                "Preferiti",
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FavoritesScreen()));
-              },
-            ),
-            ListTile(
-              title: const Text(
                 "Feed",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ActivityScreen()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                "Amici",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FriendScreen()));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                "Logout",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () async {
+                token = await FlutterSession().set('log', 'no');
+                await Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => HomeScreen()));
               },
             ),
           ],

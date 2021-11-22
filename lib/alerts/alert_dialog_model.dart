@@ -479,4 +479,50 @@ class MyAlertDialogs {
           );
         });
   }
+
+  showDialogFriendRequestSent(BuildContext context, String username) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Richiesta amicizia",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("La richiesta di amicizia è stata inviata con successo all'utente @$username",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
+
+  showDialogFriendRequestError(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Richiesta amicizia",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("Il nome utente inserito sembra non esistere. Assicurati di aver scritto lo username corretto!",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
 }

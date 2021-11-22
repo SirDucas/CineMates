@@ -77,7 +77,7 @@ class User {
     return idUser;
   }
 
-  Future<String> retrieveUsernameById(String idUser) async {
+  Future<String> retrieveUsernameById(int idUser) async {
     String username;
     var db = new DatabaseConnection();
     await db.initConnection();
