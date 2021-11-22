@@ -1,5 +1,8 @@
 import 'package:crypto/crypto.dart';
+import 'package:string_validator/string_validator.dart';
 import 'dart:convert';
+
+import 'database_connection.dart';
 
 class Check {
   //metodo per convertire stringa a codifica MD5
@@ -28,5 +31,20 @@ class Check {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(input);
     return emailValid;
+  }
+
+  Future<bool> checkUsername(String username) async {
+    bool flag = false;
+    username = escape(username);
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select username from user where username = ?', ['$username']);
+    for (var row in result) {
+      if (username == row['username']) {
+        flag = true;
+      }
+    }
+    return flag;
   }
 }
