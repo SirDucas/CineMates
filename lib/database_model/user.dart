@@ -45,13 +45,13 @@ class User {
           'insert into user (username,email,password) values (?, ?, ?)',
           ['$_username', '$_email', '$_password']);
       await db.conn.close(); //chiusura connessione
-      int idUser = await retrieveIdUser(_email);
+      int idUser = await retrieveIdUserByEmail(_email);
       print(idUser);
       createFavoriteList(idUser);
     }
   }
 
-  Future<int> retrieveIdUser(String _email) async {
+  Future<int> retrieveIdUserByEmail(String _email) async {
     int idUser;
     var db = new DatabaseConnection();
     await db.initConnection();
@@ -62,6 +62,32 @@ class User {
     }
     await db.conn.close(); //chiusura connessione
     return idUser;
+  }
+
+  Future<int> retrieveIdUserByUsername(String _username) async {
+    int idUser;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select id from user where username = ? ', ['$_username']);
+    for (var row in result) {
+      idUser = row['id'];
+    }
+    await db.conn.close(); //chiusura connessione
+    return idUser;
+  }
+
+  Future<String> retrieveUsernameById(String idUser) async {
+    String username;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select username from user where id = ? ', ['$idUser']);
+    for (var row in result) {
+      username = row['username'];
+    }
+    await db.conn.close(); //chiusura connessione
+    return username;
   }
 
   void changePassword(String _newpassword, int _userID) async {
