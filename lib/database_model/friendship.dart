@@ -31,7 +31,7 @@ class Friendship {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'update friendship isSuspended = 0 where id_user1 = ? and id_user2 = ?', ['$_friendId', '$_userId']
+        'update friendship set isSuspended = 0 where id_user1 = ? and id_user2 = ?', ['$_friendId', '$_userId']
     );
     await db.conn.close();
   }
