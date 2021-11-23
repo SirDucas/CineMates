@@ -525,4 +525,96 @@ class MyAlertDialogs {
           );
         });
   }
+
+  showDialogFriendRequestAlreadyExists(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Richiesta amicizia",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("L'utente inserito è già presente nella lista amici, oppure hai già inviato una richiesta di collegamento.",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
+
+  showDialogFriendRequestAccepted(BuildContext context, String username) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Richiesta amicizia",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("Richiesta di amicizia accettata! Ora l'utente @$username è tuo amico!",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
+
+  showDialogFriendRequestRejected(BuildContext context, String username) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Richiesta amicizia",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("Richiesta di amicizia da parte di @$username rifiutata.",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
+
+  showDialogFriendRequestRemoved(BuildContext context, String username) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.Colors.mainColor,
+            title: Text("Rimozione collegamento",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            content: Text("Il collegamento con l'utente @$username è stato rimosso.",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w100)),
+            actions: [
+              TextButton(
+                  child: Text("Capito!"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
+  }
 }

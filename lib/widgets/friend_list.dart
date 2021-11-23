@@ -1,3 +1,4 @@
+import 'package:cinemates/alerts/alert_dialog_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
@@ -45,7 +46,7 @@ class _FriendListState extends State<FriendList> {
         child: Container(
             padding: EdgeInsets.all(10.0),
             child: Text(
-              "Non hai richieste di amicizia",
+              "Non hai ancora collegamenti",
               style: TextStyle(fontSize: 10.0, color: Colors.white),
             )),
       );
@@ -54,7 +55,7 @@ class _FriendListState extends State<FriendList> {
           padding: EdgeInsets.all(10.0),
           child: ListView.separated(
               separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(height: 25.0);
+                return SizedBox(height: 5.0);
               },
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
@@ -78,6 +79,7 @@ class _FriendListState extends State<FriendList> {
                         child: Text("Rimuovi"),
                         onPressed: () {
                           Friendship().rejectFriendship(friendList[index]);
+                          MyAlertDialogs().showDialogFriendRequestRemoved(context, friendList[index]);
                           setState(() {});
                         },
                       ),

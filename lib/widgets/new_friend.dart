@@ -1,10 +1,12 @@
 import 'package:cinemates/alerts/alert_dialog_model.dart';
 import 'package:cinemates/database_model/check.dart';
+import 'package:cinemates/database_model/user.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:cinemates/database_model/friendship.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class NewFriend extends StatefulWidget {
   const NewFriend({Key key}) : super(key: key);
@@ -59,8 +61,16 @@ class _NewFriendState extends State<NewFriend> {
                       onPressed: () async {
                         bool userExists = await Check().checkUsername(textFieldController.text);
                         if (userExists) {
-                          Friendship().requestFriendship(textFieldController.text);
-                          MyAlertDialogs().showDialogFriendRequestSent(context, textFieldController.text);
+                          int userId = await FlutterSession().get('token');
+                          int friendId = await User().retrieveIdUserByUsername(textFieldController.text);
+                          bool isAlreadyFriend = await Friendship().isFriend(userId, friendId);
+                          if (isAlreadyFriend == false) {
+                            Friendship().requestFriendship(textFieldController.text);
+                            MyAlertDialogs().showDialogFriendRequestSent(context, textFieldController.text);
+                          }
+                          else {
+                            MyAlertDialogs().showDialogFriendRequestAlreadyExists(context);
+                          }
                         }
                         else {
                           MyAlertDialogs().showDialogFriendRequestError(context);

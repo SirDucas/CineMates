@@ -1,3 +1,4 @@
+import 'package:cinemates/alerts/alert_dialog_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
@@ -81,6 +82,7 @@ class _RecievedRequestsState extends State<RecievedRequests> {
                                 onPressed: () async {
                                   Friendship()
                                       .acceptFriendship(recievedRequests[index]);
+                                  MyAlertDialogs().showDialogFriendRequestAccepted(context, recievedRequests[index]);
                                   setState(() {});
                                 },
                               ),
@@ -89,6 +91,7 @@ class _RecievedRequestsState extends State<RecievedRequests> {
                                 onPressed: () {
                                   Friendship()
                                       .rejectFriendship(recievedRequests[index]);
+                                  MyAlertDialogs().showDialogFriendRequestRejected(context, recievedRequests[index]);
                                   setState(() {});
                                 },
                               ),
