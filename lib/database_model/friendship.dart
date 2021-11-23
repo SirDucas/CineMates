@@ -74,10 +74,14 @@ class Friendship {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'select id_user1 from friendship where id_user2 = ? and isSuspended = 0', ['$_userId']
+        'select * from friendship where id_user2 = ? OR id_user1 = ?  and isSuspended = 0', ['$_userId','$_userId']
     );
     for (var row in result) {
-      username = await User().retrieveUsernameById(row['id_user1']);
+      if(row['id_user1'] == _userId){
+        username = await User().retrieveUsernameById(row['id_user2']);
+      } else {
+        username = await User().retrieveUsernameById(row['id_user1']);
+      }
       friendList.add(username);
     }
     return friendList;
