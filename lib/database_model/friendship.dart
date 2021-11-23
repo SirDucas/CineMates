@@ -88,8 +88,8 @@ class Friendship {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'select * from friendship where id_user1 = ? and id_user2 = ?',
-        ['$_userId', '$_friendId']);
+        'select * from friendship where (id_user1 = ? and id_user2 = ?) OR (id_user2 = ? and id_user1 = ?)',
+        ['$_friendId', '$_userId', '$_friendId', '$_userId']);
     for (var row in result) {
       if (_userId == row['id_user1'] && _friendId == row['id_user2']) {
         flag = true;
