@@ -77,10 +77,12 @@ class Friendship {
         'select * from friendship where (id_user2 = ? OR id_user1 = ?) and isSuspended = 0', ['$_userId','$_userId']
     );
     for (var row in result) {
-      if(row['id_user1'] == _userId){
+      if(_userId == row['id_user1']){
         username = await User().retrieveUsernameById(row['id_user2']);
-      } else {
+      } else if (_userId == row['id_user2']) {
         username = await User().retrieveUsernameById(row['id_user1']);
+      } else {
+        print("error");
       }
       friendList.add(username);
     }
