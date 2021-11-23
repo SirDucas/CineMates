@@ -74,7 +74,7 @@ class Friendship {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'select * from friendship where id_user2 = ? OR id_user1 = ?  and isSuspended = 0', ['$_userId','$_userId']
+        'select * from friendship where (id_user2 = ? OR id_user1 = ?) and isSuspended = 0', ['$_userId','$_userId']
     );
     for (var row in result) {
       if(row['id_user1'] == _userId){
@@ -92,10 +92,10 @@ class Friendship {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'select id_user1 from friendship where id_user1 = ? and id_user2 = ?',
+        'select * from friendship where id_user1 = ? and id_user2 = ?',
         ['$_userId', '$_friendId']);
     for (var row in result) {
-      if (_userId == row[0])
+      if (_userId == row['id_user1'] || _userId == row['id_user2'])
         flag = true;
     }
     await db.conn.close(); //chiusura connessione
