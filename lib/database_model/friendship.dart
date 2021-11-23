@@ -50,7 +50,6 @@ class Friendship {
 
   Future<List<String>> retrieveFriendshipSuspended() async {
     String username;
-    int _friendId;
     int _userId = await FlutterSession().get('token'); // ricevente
     List<String> friendship = [];
     var db = new DatabaseConnection();
@@ -59,7 +58,6 @@ class Friendship {
         'select id_user1 from friendship where id_user2 = ? and isSuspended = 1', ['$_userId']
     );
     for (var row in result) {
-      _friendId = row['id_user1'];
       username = await User().retrieveUsernameById(row['id_user1']);
       friendship.add(username);
     }
@@ -97,8 +95,13 @@ class Friendship {
         'select * from friendship where id_user1 = ? and id_user2 = ?',
         ['$_userId', '$_friendId']);
     for (var row in result) {
-      if (_userId == row['id_user1'] || _userId == row['id_user2'])
+      if (_userId == row['id_user1'] && _friendId == row['id_user2']) {
         flag = true;
+      } else if (_userId == row['id_user2'] && _friendId == row['id_user1']) {
+        flag = true;
+      } else {
+        flag = false;
+      }
     }
     await db.conn.close(); //chiusura connessione
     return flag;
