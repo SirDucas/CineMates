@@ -105,7 +105,7 @@ class Feed {
         int index = friendList[iteretor];
         print(index);
         var results = await db.conn.query(
-            'select * from feed where id_user = ?',
+            'select * from feed where id_user = ? ORDER BY create_time DESC',
             [index]
         );
         for (var row in results) {
