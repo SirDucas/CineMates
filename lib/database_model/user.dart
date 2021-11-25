@@ -7,6 +7,7 @@ import 'package:cinemates/session/session_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:cinemates/database_model/feed.dart';
 
 class User {
   Future<bool> userLogin(String _email, String _password) async {
@@ -134,6 +135,7 @@ class User {
       var custom = await db.conn.query(
           'insert into list (id_user,description,title,isFavorites) values (?, ?, ?, ?)',
           ['$_idUser', '$_description', '$_title', 0]);
+      Feed().newCustomListFeed(_title);
       await db.conn.close();
       return;
     }
@@ -161,6 +163,7 @@ class User {
     var result = await db.conn.query(
         'insert into favmovie (id_movie,title,poster,id_list) values (?, ?, ?, ?)',
         ['$_idMovie', '$_title', '$_poster', '$_idList']);
+    Feed().addMovieToFavoritesFeed(_idMovie);
     await db.conn.close(); //chiusura connessione
   }
 
@@ -171,6 +174,7 @@ class User {
     var result = await db.conn.query(
         'insert into favmovie (id_movie,title,poster,id_list) values (?, ?, ?, ?)',
         ['$_idMovie', '$_title', '$_poster', '$_idList']);
+    Feed().addMovieToCustomFeed(_idMovie, _idList);
     await db.conn.close(); //chiusura connessione
   }
 

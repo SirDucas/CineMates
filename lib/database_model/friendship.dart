@@ -4,6 +4,7 @@ import 'package:cinemates/database_model/database_connection.dart';
 import 'package:cinemates/database_model/check.dart';
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:cinemates/database_model/feed.dart';
 
 class Friendship {
   void requestFriendship(String username) async {
@@ -17,6 +18,7 @@ class Friendship {
       var result = await db.conn.query(
           'insert into friendship (id_user1,id_user2) values (?,?)',
           ['$_userId', '$_friendId']);
+      Feed().addFriendFeed(_userId, _friendId);
       await db.conn.close();
     } else {
       print("amicizia già presente o sospesa"); // inserire un alert dialog

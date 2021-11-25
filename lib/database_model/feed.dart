@@ -1,0 +1,57 @@
+import 'package:cinemates/database_model/user.dart';
+import 'package:flutter_session/flutter_session.dart';
+import 'package:cinemates/database_model/database_connection.dart';
+
+class Feed {
+
+  void addFriendFeed(int _userId, int _friendId) async {
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'insert into feed (id_user, type, content) values (?, ?, ?)',
+        ['$_userId',0, '$_friendId']);
+    await db.conn.close();
+  }
+
+  void addMovieToFavoritesFeed(int _idMovie) async {
+    int _userId = await FlutterSession().get('token');
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'insert into feed (id_user, type, content) values (?, ?, ?)',
+        ['$_userId',1,'$_idMovie']);
+    await db.conn.close();
+  }
+
+  void addMovieToCustomFeed(int _idMovie, int _idList) async {
+    int _userId = await FlutterSession().get('token');
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'insert into feed (id_user, type, content, id_list) values (?, ?, ?. ?)',
+        ['$_userId',2,'$_idMovie','$_idList']);
+    await db.conn.close();
+  }
+
+  void newCustomListFeed(String _title) async {
+    int _idList;
+    int _userId = await FlutterSession().get('token');
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var title = await db.conn.query(
+      'select id from list where title = ? and id_user = ? LIMIT 1',
+      ['$_title','$_userId']);
+   for (var row in title) {
+     _idList = row[0];
+   }
+    var result = await db.conn.query(
+        'insert into feed (id_user,type,id_list) values (?, ?, ?)',
+        ['$_userId',3,'$_idList']);
+    await db.conn.close();
+  }
+
+  Future<List<String>> personalFeed() async {
+    int _userId = await FlutterSession().get('token');
+  }
+
+}
