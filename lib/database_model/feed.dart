@@ -56,9 +56,9 @@ class Feed {
     List<int> friendList = [];
     List<String> activities = [];
     friendList = await Friendship().retrieveFriendListIds();
+    print(friendList);
     var db = new DatabaseConnection();
     await db.initConnection();
-    print("Lista posizione 0 è " + friendList[0].toString());
     if (friendList.length == 1) {
       int index = friendList[0];
       var db = new DatabaseConnection();
@@ -99,32 +99,37 @@ class Feed {
       }
     }
     else {
-      for (int i in friendList) {
-        var result = await db.conn.query(
+      int iteretor = 0;
+      int length = friendList.length;
+      while (iteretor <= length-1) {
+        int index = friendList[iteretor];
+        print(index);
+        var results = await db.conn.query(
             'select * from feed where id_user = ?',
-            ['$friendList'[i]]
+            [index]
         );
-        for (var row in result) {
-          if (row['type'] == 0) {
+        for (var row in results) {
+          print(row[2]);
+          if (row[2] == 0) {
             username = await User().retrieveUsernameById(row['id_user']);
             friendUsername = await User().retrieveUsernameById(row['content']);
             stringToAdd = (username + "ha aggiunto come amico" + friendUsername + "!");
             activities.add(stringToAdd);
           }
-          else if (row['type'] == 1) {
+          else if (row[2] == 1) {
             username = await User().retrieveUsernameById(row['id_user']);
             movieTitle = await User().retrieveMovieTitleById(row['content']);
             stringToAdd = (username + "ha appena aggiunto il titolo" + movieTitle);
             activities.add(stringToAdd);
           }
-          else if (row['type'] == 2) {
+          else if (row[2] == 2) {
             username = await User().retrieveUsernameById(row['id_user']);
             movieTitle = await User().retrieveMovieTitleById(row['content']);
             listTitle = await User().retrieveSingleListTitleById(row['id_list']);
             stringToAdd = (username + "ha appena aggiunto il titolo" + movieTitle + "alla sua lista personalizzata " + listTitle + "!");
             activities.add(stringToAdd);
           }
-          else if (row ['type'] == 3) {
+          else if (row [2] == 3) {
             username = await User().retrieveUsernameById(row['id_user']);
             listTitle = await User().retrieveSingleListTitleById(row['id_list']);
             stringToAdd = (username + "ha appena creato una nuova lista con il titolo " + listTitle + "!");
@@ -134,6 +139,7 @@ class Feed {
             print("errore");
           }
         }
+        iteretor++;
       }
     }
     await db.conn.close();

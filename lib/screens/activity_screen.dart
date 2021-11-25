@@ -40,7 +40,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget _buildPersonalFeedListWidget(List<String> data) {
     List<String> personalFeed = [];
     personalFeed = List.from(data);
-    print(personalFeed);
     if (personalFeed.length == 0) {
       return Scaffold(
           backgroundColor: Style.Colors.mainColor,
