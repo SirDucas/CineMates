@@ -316,7 +316,7 @@ class User {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'select title from favorites where movieId = ? LIMIT 1',
+        'select title from favmovie where id_movie = ? LIMIT 1',
         ['$_movieId']);
     for (var row in result) {
       movieTitle = row['title'];
@@ -455,11 +455,10 @@ class User {
 
   Future<String> retrieveSingleListTitleById(int _idList) async {
     String titleList;
-    int userId = await FlutterSession().get('token');
     var db = new DatabaseConnection();
     await db.initConnection();
-    var result = await db.conn
-        .query('select title from list where id = ? and id_user = ?', ['$_idList', '$userId']);
+    var result = await db.conn.query(
+        'select title from list where id = ?', ['$_idList']);
     for (var row in result) {
       titleList = row['title'];
     }
