@@ -1,3 +1,4 @@
+import 'package:cinemates/database_model/feed.dart';
 import 'package:cinemates/screens/friend_screen.dart';
 import 'package:cinemates/screens/lists_screen.dart';
 import 'package:cinemates/screens/login_screen.dart';
@@ -82,7 +83,7 @@ Widget buildHomeScreenLogout(BuildContext context) {
                 "Preferiti",
                 style: TextStyle(color: Colors.white),
               ),
-              onTap: () {
+              onTap: () async {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => FavoritesScreen()));
               },

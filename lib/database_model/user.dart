@@ -311,6 +311,19 @@ class User {
     return movies;
   }
 
+  Future<String> retrieveMovieTitleById(int _movieId) async {
+    String movieTitle;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'select title from favorites where movieId = ? LIMIT 1',
+        ['$_movieId']);
+    for (var row in result) {
+      movieTitle = row['title'];
+    }
+    return movieTitle;
+  }
+
   Future<List<int>> retrieveListId(int _userId) async {
     List<int> customLists;
     var db = new DatabaseConnection();
@@ -438,5 +451,19 @@ class User {
     }
     await db.conn.close();
     return idList;
+  }
+
+  Future<String> retrieveSingleListTitleById(int _idList) async {
+    String titleList;
+    int userId = await FlutterSession().get('token');
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select title from list where id = ? and id_user = ?', ['$_idList', '$userId']);
+    for (var row in result) {
+      titleList = row['title'];
+    }
+    await db.conn.close();
+    return titleList;
   }
 }

@@ -85,6 +85,28 @@ class Friendship {
     return friendList;
   }
 
+  Future<List<int>> retrieveFriendListIds() async {
+    int _userId = await FlutterSession().get('token');
+    int _friendId;
+    List<int> friendList = [];
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'select * from friendship where (id_user2 = ? OR id_user1 = ?) and isSuspended = 0',
+        ['$_userId', '$_userId']);
+    for (var row in result) {
+      if (_userId == row['id_user1']) {
+        _friendId = row['id_user2'];
+      } else if (_userId == row['id_user2']) {
+        _friendId = row['id_user1'];
+      } else {
+        print("error");
+      }
+      friendList.add(_friendId);
+    }
+    return friendList;
+  }
+
   Future<bool> isFriend(int _userId, int _friendId) async {
     bool flag = false;
     var db = new DatabaseConnection();
