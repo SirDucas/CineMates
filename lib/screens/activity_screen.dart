@@ -87,7 +87,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 itemBuilder: (context, index) {
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Text(personalFeed[index], style: TextStyle(fontSize: 13.0)),
+                    child: Text(personalFeed[index], style: TextStyle(fontSize: 18.0, color: Colors.white)),
                   );
                 })),
       );
