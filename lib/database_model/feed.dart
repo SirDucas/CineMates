@@ -58,13 +58,12 @@ class Feed {
     friendList = await Friendship().retrieveFriendListIds();
     var db = new DatabaseConnection();
     await db.initConnection();
-    print("Lista posizione 0 è " + friendList[0].toString());
     if (friendList.length == 1) {
       int index = friendList[0];
       var db = new DatabaseConnection();
       await db.initConnection();
       var resulta = await db.conn.query(
-          'select * from feed where id_user = ?',
+          'select * from feed where id_user = ? ORDER BY create_time DESC',
           [index]
       );
       for (var row in resulta) {
@@ -77,14 +76,14 @@ class Feed {
         else if (row[2] == 1) {
           username = await User().retrieveUsernameById(row['id_user']);
           movieTitle = await User().retrieveMovieTitleById(row['content']);
-          stringToAdd = (username + " ha appena aggiunto il titolo " + movieTitle);
+          stringToAdd = (username + " ha appena aggiunto il titolo " + movieTitle + " ai suoi preferiti!");
           activities.add(stringToAdd);
         }
         else if (row[2] == 2) {
           username = await User().retrieveUsernameById(row['id_user']);
           movieTitle = await User().retrieveMovieTitleById(row['content']);
           listTitle = await User().retrieveSingleListTitleById(row['id_list']);
-          stringToAdd = (username + " ha appena aggiunto il titolo" + movieTitle + "alla sua lista personalizzata " + listTitle + "!");
+          stringToAdd = (username + " ha appena aggiunto il titolo " + movieTitle + " alla sua lista personalizzata " + listTitle + "!");
           activities.add(stringToAdd);
         }
         else if (row[2] == 3) {

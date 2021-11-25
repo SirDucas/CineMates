@@ -40,7 +40,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget _buildPersonalFeedListWidget(List<String> data) {
     List<String> personalFeed = [];
     personalFeed = List.from(data);
-    print(personalFeed);
     if (personalFeed.length == 0) {
       return Scaffold(
           backgroundColor: Style.Colors.mainColor,
@@ -88,7 +87,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 itemBuilder: (context, index) {
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Text(personalFeed[index], style: TextStyle(fontSize: 13.0)),
+                    child: Text(personalFeed[index], style: TextStyle(fontSize: 18.0, color: Colors.white)),
                   );
                 })),
       );
