@@ -25,7 +25,7 @@ class _PersonsListState extends State<PersonsList> {
         Padding(
           padding: EdgeInsets.only(left: 10.0, top: 20.0),
           child: Text(
-            "TRENDING PERSON ON THIS WEEK",
+            "PERSONE IN TREND QUESTA SETTIMANA",
             style: TextStyle(
                 color: Style.Colors.titleColor,
                 fontWeight: FontWeight.w500,
@@ -74,7 +74,7 @@ class _PersonsListState extends State<PersonsList> {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Text("Error occurred: $error")],
+      children: <Widget>[Text("Errore: $error")],
     ));
   }
 

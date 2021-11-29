@@ -35,7 +35,7 @@ class _CastsState extends State<Casts> {
         Padding(
           padding: EdgeInsets.only(left: 10.0, top: 20.0),
           child: Text(
-            "STARRING",
+            "CAST",
             style: TextStyle(
                 color: Style.Colors.titleColor,
                 fontWeight: FontWeight.w500,
@@ -100,7 +100,7 @@ class _CastsState extends State<Casts> {
             Column(
               children: <Widget>[
                 Text(
-                  "No More Persons",
+                  "Nessun altra persona",
                   style: TextStyle(color: Colors.black45),
                 )
               ],

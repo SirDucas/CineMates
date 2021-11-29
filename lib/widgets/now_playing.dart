@@ -56,7 +56,7 @@ class _NowPlayingState extends State<NowPlaying> {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Text("Error occurred: $error")],
+      children: <Widget>[Text("Errore: $error")],
     ));
   }
 
@@ -68,7 +68,7 @@ class _NowPlayingState extends State<NowPlaying> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[Text("No movies")],
+          children: <Widget>[Text("Nessun film")],
         ),
       );
     } else {

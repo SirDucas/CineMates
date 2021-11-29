@@ -55,7 +55,7 @@ class _GenresScreenState extends State<GenresScreen> {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Text("Error occurred: $error")],
+      children: <Widget>[Text("Errore: $error")],
     ));
   }
 
@@ -63,7 +63,7 @@ class _GenresScreenState extends State<GenresScreen> {
     List<Genre> genres = data.genres;
     if (genres.length == 0) {
       return Container(
-        child: Text("No Genre"),
+        child: Text("Nessun genere"),
       );
     } else
       return GenresList(genres: genres);

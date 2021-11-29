@@ -65,7 +65,7 @@ class _MovieInfoState extends State<MovieInfo> {
     return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text("Error occurred: $error")],
+          children: <Widget>[Text("Errore: $error")],
         ));
   }
 

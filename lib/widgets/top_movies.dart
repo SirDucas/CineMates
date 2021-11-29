@@ -26,7 +26,7 @@ class _TopMoviesState extends State<TopMovies> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(left: 10.0, top: 20.0),
-          child: Text("TOP RATED MOVIES", style: TextStyle(
+          child: Text("I MIGLIORI TITOLI", style: TextStyle(
               color: Style.Colors.titleColor,
               fontWeight: FontWeight.w500,
               fontSize: 12.0
@@ -77,7 +77,7 @@ class _TopMoviesState extends State<TopMovies> {
     return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text("Error occurred: $error")],
+          children: <Widget>[Text("Errore: $error")],
         ));
   }
 
@@ -85,7 +85,7 @@ class _TopMoviesState extends State<TopMovies> {
     List<Movie> movies = data.movies;
     if (movies.length == 0) {
       return Container(
-        child: Text("No Movies"),
+        child: Text("Nessun Film"),
       );
     } else {
       return Container(

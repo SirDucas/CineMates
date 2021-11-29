@@ -62,7 +62,7 @@ class _GenreMoviesState extends State<GenreMovies> {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Text("Error occurred: $error")],
+      children: <Widget>[Text("Errore: $error")],
     ));
   }
 
@@ -70,7 +70,7 @@ class _GenreMoviesState extends State<GenreMovies> {
     List<Movie> movies = data.movies;
     if (movies.length == 0) {
       return Container(
-        child: Text("No Movies"),
+        child: Text("Nessun Film"),
       );
     } else {
       return Container(
