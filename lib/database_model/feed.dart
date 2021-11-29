@@ -145,5 +145,4 @@ class Feed {
     await db.conn.close();
     return activities;
   }
-
 }
