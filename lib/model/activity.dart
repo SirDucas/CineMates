@@ -1,12 +1,13 @@
 class Activity {
   final int id;
-  final int userId;
+  final String username;
   final int type;
-  final createTime;
-  final content;
-  final idList;
+  final DateTime createTime;
+  final String friendUsername;
+  final String movieTitle;
+  final String listTitle;
 
-  Activity(this.id, this.userId, this.type, this.createTime, this.content, this.idList);
+  Activity(this.id, this.username, this.type, this.createTime, this.friendUsername, this.movieTitle, this.listTitle);
 
 
 }

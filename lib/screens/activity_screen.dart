@@ -1,7 +1,10 @@
 import 'package:cinemates/database_model/feed.dart';
+import 'package:cinemates/database_model/user.dart';
+import 'package:cinemates/model/activity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({Key key}) : super(key: key);
@@ -23,9 +26,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<String>> (
+    return FutureBuilder<List<Activity>>(
       future: _createPersonalFeedList(),
-      builder: (context, AsyncSnapshot<List<String>> snapshot) {
+      builder: (context, AsyncSnapshot<List<Activity>> snapshot) {
         if (snapshot.hasData) {
           return _buildPersonalFeedListWidget(snapshot.data);
         } else if (snapshot.hasError) {
@@ -37,8 +40,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
     );
   }
 
-  Widget _buildPersonalFeedListWidget(List<String> data) {
-    List<String> personalFeed = [];
+  Widget _buildPersonalFeedListWidget(List<Activity> data) {
+    List<Activity> personalFeed = [];
     personalFeed = List.from(data);
     if (personalFeed.length == 0) {
       return Scaffold(
@@ -63,7 +66,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
                         fontSize: 20.0),
                   )),
               SizedBox(height: 15.0),
-              Center(child: Icon(Icons.volunteer_activism, size: 50, color: Colors.grey))
+              Center(
+                  child: Icon(Icons.volunteer_activism,
+                      size: 50, color: Colors.grey))
             ]),
           ));
     } else {
@@ -79,16 +84,17 @@ class _ActivityScreenState extends State<ActivityScreen> {
             padding: EdgeInsets.all(10.0),
             child: ListView.separated(
                 separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: 25.0);
+                  return SizedBox(height: 50.0);
                 },
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemCount: personalFeed.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Text(personalFeed[index], style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                  );
+                  return _generateActivityCard(personalFeed[index]);
+                  // return Container(
+                  //   padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  //   child: Text(personalFeed[index].type.toString(), style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                  // );
                 })),
       );
     }
@@ -97,9 +103,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget _buildErrorWidget(String error) {
     return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text("Error occurred: $error")],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[Text("Error occurred: $error")],
+    ));
   }
 
   Widget _buildLoadingWidget() {
@@ -115,21 +121,124 @@ class _ActivityScreenState extends State<ActivityScreen> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  height: 25.0,
-                  width: 25.0,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    strokeWidth: 4.0,
-                  ),
-                )
-              ])),
+            SizedBox(
+              height: 25.0,
+              width: 25.0,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                strokeWidth: 4.0,
+              ),
+            )
+          ])),
     );
   }
 
-  Future<List<String>> _createPersonalFeedList() async {
-    List<String> personalFeed = [];
-    personalFeed = await Feed().personalFeedList();
+  Future<List<Activity>> _createPersonalFeedList() async {
+    List<Activity> personalFeed = [];
+    personalFeed = await Feed().generateActivityList();
     return personalFeed;
+  }
+
+  Widget _generateActivityCard(Activity activity) {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Icon(FontAwesomeIcons.user, color: Colors.white),
+              SizedBox(width: 5.0),
+              Text(
+                "@" + activity.username,
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 15.0,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w300,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.0),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+                child: (() {
+              if (activity.type == 0) {
+                return Text(
+                  "@" + activity.username +
+                      " ha effettuato un nuovo collegamento con l'utente @" +
+                      activity.friendUsername + ".",
+                  style: TextStyle(
+                    color: Colors.white,
+                    height: 1.5,
+                    // letterSpacing: 1.0,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                );
+              }
+              if (activity.type == 1) {
+                return Text(
+                  "@" + activity.username +
+                    " ha aggiunto il titolo " + activity.movieTitle +
+                    " alla sua lista dei Preferiti!",
+                  style: TextStyle(
+                    color: Colors.white,
+                    height: 1.5,
+                    // letterSpacing: 1.0,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                );
+              }
+              if (activity.type == 2) {
+                return Text(
+                  "@" + activity.username +
+                      " ha aggiunto il titolo " + activity.movieTitle +
+                      " alla sua lista personalizzata " +
+                      activity.listTitle,
+                  style: TextStyle(
+                    color: Colors.white,
+                    height: 1.5,
+                    // letterSpacing: 1.0,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                );
+              }
+              if (activity.type == 3) {
+                return Text(
+                  "@" + activity.username +
+                      " ha creato una nuova lista con il titolo "
+                      + activity.listTitle,
+                  style: TextStyle(
+                    color: Colors.white,
+                    height: 1.5,
+                    // letterSpacing: 1.0,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                );
+              }
+            }())),
+          ),
+          SizedBox(height: 5.0),
+          Text(
+            "il " + activity.createTime.day.toString() +
+            "/" + activity.createTime.month.toString() +
+            " alle ore " + activity.createTime.hour.toString() + ":" + activity.createTime.minute.toString(),
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 10.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

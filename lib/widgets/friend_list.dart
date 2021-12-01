@@ -55,7 +55,7 @@ class _FriendListState extends State<FriendList> {
           padding: EdgeInsets.all(10.0),
           child: ListView.separated(
               separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(height: 5.0);
+                return SizedBox(height: 1.0);
               },
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
