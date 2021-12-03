@@ -16,11 +16,16 @@ class User {
     var result = await db.conn
         .query('select id, password from user where email = ?', ['$_email']);
     for (var row in result) {
-      if (Check().generateMd5(_password) == row[1]) {
+      if (Check().generateMd5(_password) == row[1] && row['isAdmin'] == 0) {
         await db.conn.close(); //chiusura connessione
         await FlutterSession().set('token', row['id']);
         await FlutterSession().set('log', 'yes');
         return true;
+      } else if (Check().generateMd5(_password) == row[1] && row['isAdmin'] == 1) {
+        await db.conn.close(); //chiusura connessione
+        await FlutterSession().set('token', row['id']);
+        await FlutterSession().set('log', 'yes');
+        await FlutterSession().set('tokenadmin', 'admin');
       } else {
         await db.conn.close(); //chiusura connessione
         return false;
