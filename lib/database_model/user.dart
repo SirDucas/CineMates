@@ -14,15 +14,17 @@ class User {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn
-        .query('select id, password from user where email = ?', ['$_email']);
+        .query('select id, password, isAdmin from user where email = ?', ['$_email']);
     for (var row in result) {
-      if (Check().generateMd5(_password) == row[1] && row['isAdmin'] == 0) {
+      if (Check().generateMd5(_password) == row['password'] && row['isAdmin'] == 0) {
         await db.conn.close(); //chiusura connessione
+        await statsAccess(row['id']);
         await FlutterSession().set('token', row['id']);
         await FlutterSession().set('log', 'yes');
         return true;
-      } else if (Check().generateMd5(_password) == row[1] && row['isAdmin'] == 1) {
+      } else if (Check().generateMd5(_password) == row['password'] && row['isAdmin'] == 1) {
         await db.conn.close(); //chiusura connessione
+        await statsAccess(row['id']);
         await FlutterSession().set('token', row['id']);
         await FlutterSession().set('log', 'yes');
         await FlutterSession().set('tokenadmin', 'admin');
@@ -55,6 +57,15 @@ class User {
       print(idUser);
       createFavoriteList(idUser);
     }
+  }
+
+  void statsAccess(int _userId) async {
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn.query(
+        'insert into access (id_user) values (?)',
+        ['$_userId']);
+    await db.conn.close();
   }
 
   Future<int> retrieveIdUserByEmail(String _email) async {
