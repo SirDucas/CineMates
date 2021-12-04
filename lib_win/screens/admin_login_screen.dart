@@ -15,16 +15,17 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  String urlTmdb = "https://www.themoviedb.org/?language=it-IT";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Style.Colors.mainColor, elevation: 0),
+      appBar: AppBar(
+        backgroundColor: Style.Colors.mainColor,
+        elevation: 0,
+      ),
       backgroundColor: Style.Colors.mainColor,
       body: Padding(
           padding: EdgeInsets.all(10),
-          child: ListView(
+          child: Column(
             children: <Widget>[
               Container(
                   alignment: Alignment.center,
@@ -33,11 +34,13 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     'Cinemates for Administrators',
                     style: TextStyle(
                         color: Style.Colors.secondColor,
-                        fontWeight: FontWeight.w100,
+                        fontWeight: FontWeight.bold,
                         fontSize: 30),
                   )),
               SizedBox(height: 35.0),
               Container(
+                height: 60.0,
+                width: 400.0,
                 padding: EdgeInsets.all(10),
                 child: TextField(
                   controller: emailController,
@@ -52,7 +55,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     hintStyle: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w300,
-                        fontSize: 18.0),
+                        fontSize: 15.0),
                     prefixIcon: Icon(EvaIcons.person, color: Colors.grey),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Style.Colors.secondColor),
@@ -68,6 +71,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               ),
               SizedBox(height: 10),
               Container(
+                height: 60.0,
+                width: 400.0,
                 padding: EdgeInsets.all(10),
                 child: TextField(
                   obscureText: true,
@@ -83,8 +88,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     hintStyle: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w300,
-                        fontSize: 18.0),
-                    prefixIcon: Icon(EvaIcons.person, color: Colors.grey),
+                        fontSize: 15.0),
+                    prefixIcon: Icon(Icons.lock, color: Colors.grey),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Style.Colors.secondColor),
                     ),
@@ -99,12 +104,18 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               ),
               SizedBox(height: 25.0),
               Container(
-                  height: 50,
+                  height: 50.0,
+                  width: 200.0,
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: RaisedButton(
                       textColor: Style.Colors.mainColor,
                       color: Style.Colors.secondColor,
-                      child: Text('Accedi al pannello'),
+                      child: Text(
+                        'Accedi alla dashboard',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       onPressed: () async {
                         if (emailController.text.isEmpty ||
                             passwordController.text.isEmpty) {
@@ -114,7 +125,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           MyAlertDialogs().showDialogInvalidLoginField(context);
                         }
                         else {
-                          if (await User().userLogin(emailController.text, passwordController.text) == true) {}
+                          if (await User().userLogin(
+                              emailController.text, passwordController.text) ==
+                              true) {}
                           else {
                             MyAlertDialogs().showDialogFailedLogin(context);
                           }
@@ -126,8 +139,4 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
           )),
     );
   }
-
-  void _launchUrl() async => await canLaunch(urlTmdb)
-      ? await launch(urlTmdb)
-      : throw 'Could not launch $urlTmdb';
 }

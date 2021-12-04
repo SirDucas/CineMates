@@ -113,5 +113,18 @@ class Stats {
     return howmany;
   }
 
+  Future<String> topFavoriteMovie() async {
+    String howmany;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select title from favmovie group by title order by count(*) desc limit 1;'); //prende il titolo più inserito nei preferiti
+    for (var row in result) {
+      howmany = row[0];
+    }
+    print(howmany);
+    return howmany;
+  }
+
 
 }
