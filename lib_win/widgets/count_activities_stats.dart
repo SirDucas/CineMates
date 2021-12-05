@@ -80,6 +80,7 @@ class _ActivityCountStatisticsState extends State<ActivityCountStatistics> {
           ),
           Text(
             "Attività totali generate dagli utenti registrati",
+            textAlign: TextAlign.center,
             maxLines: 3,
             style: TextStyle(
               color: Colors.grey,

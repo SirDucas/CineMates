@@ -8,6 +8,7 @@ import '../widgets/count_favmovies_stats.dart';
 import '../widgets/count_friendship_stats.dart';
 import '../widgets/count_users_stats.dart';
 import '../widgets/top_favorite_widget.dart';
+import 'crud_operator_screen.dart';
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key key}) : super(key: key);
 
@@ -52,7 +53,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     fontSize: 14.0,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => DashboardScreen()));
+                },
               ),
               ListTile(
                 leading: Icon(
@@ -67,7 +71,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     fontSize: 14.0,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => CrudOperatorScreen()));
+                },
               ),
               ListTile(
                 leading: Icon(
@@ -120,7 +127,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 SizedBox(height: 20.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Material(
                       color: Style.Colors.mainColor,
@@ -139,7 +146,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 SizedBox(height: 15.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Material(
                       color: Style.Colors.mainColor,

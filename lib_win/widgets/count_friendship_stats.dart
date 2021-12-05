@@ -81,6 +81,7 @@ class _FriendshipCountStatisticsState extends State<FriendshipCountStatistics> {
           Text(
             "Collegamenti/amicizie registrati tra gli utenti",
             maxLines: 3,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.w400,

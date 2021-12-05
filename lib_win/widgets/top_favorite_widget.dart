@@ -62,32 +62,36 @@ class _TopFavoriteMovieStatisticsState extends State<TopFavoriteMovieStatistics>
     return Container(
       width: 200.0,
       height: 150.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Icon(
-            Icons.movie,
-            color: Style.Colors.secondColor,
-            size: 50.0,
-          ),
-          Text(
-            data.toString(),
-            style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Icon(
+              Icons.movie,
+              color: Style.Colors.secondColor,
+              size: 50.0,
             ),
-          ),
-          Text(
-            "Il titolo più inserito nei preferiti",
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.w400,
-              fontStyle: FontStyle.italic,
-              fontSize: 12.0,
+            Text(
+              data.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+              ),
             ),
-          ),
-        ],
+            Text(
+              "Il titolo più inserito nei preferiti",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.italic,
+                fontSize: 12.0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

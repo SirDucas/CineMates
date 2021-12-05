@@ -62,31 +62,34 @@ class _AccessCountStatisticsState extends State<AccessCountStatistics> {
     return Container(
       width: 200.0,
       height: 150.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Icon(
-            Icons.login,
-            color: Style.Colors.secondColor,
-            size: 50.0,
-          ),
-          Text(
-            data.toString(),
-            style: TextStyle(
-                fontSize: 35.0,
-                fontWeight: FontWeight.w600,
-                color: Colors.white),
-          ),
-          Text(
-            "Numero totale di accessi effettuati",
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.w400,
-              fontStyle: FontStyle.italic,
-              fontSize: 12.0,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Icon(
+              Icons.login,
+              color: Style.Colors.secondColor,
+              size: 50.0,
             ),
-          ),
-        ],
+            Text(
+              data.toString(),
+              style: TextStyle(
+                  fontSize: 35.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white),
+            ),
+            Text(
+              "Numero totale di accessi effettuati",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.italic,
+                fontSize: 12.0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

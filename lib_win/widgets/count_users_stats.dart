@@ -62,33 +62,37 @@ class _UserCountStatisticsState extends State<UserCountStatistics> {
     return Container(
       width: 150.0,
       height: 150.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Icon(
-            Icons.person_outline_rounded,
-            color: Style.Colors.secondColor,
-            size: 50.0,
-          ),
-          Text(
-            data.toString(),
-            style: TextStyle(
-              fontSize: 35.0,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Icon(
+              Icons.person_outline_rounded,
+              color: Style.Colors.secondColor,
+              size: 50.0,
             ),
-          ),
-          Text(
-            "Numero di utenti registrati sulla nostra app",
-            maxLines: 3,
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.w400,
-              fontStyle: FontStyle.italic,
-              fontSize: 12.0,
+            Text(
+              data.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 35.0,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+            Text(
+              "Numero di utenti registrati sulla nostra app",
+              maxLines: 3,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.italic,
+                fontSize: 12.0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

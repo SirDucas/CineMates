@@ -72,6 +72,7 @@ class _FavoriteTitlesCountStatisticsState extends State<FavoriteTitlesCountStati
           ),
           Text(
             data.toString(),
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 35.0,
               fontWeight: FontWeight.w600,
@@ -81,6 +82,7 @@ class _FavoriteTitlesCountStatisticsState extends State<FavoriteTitlesCountStati
           Text(
             "Numero totale dei film salvati nelle liste preferiti e personalizzate",
             maxLines: 3,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.w400,
