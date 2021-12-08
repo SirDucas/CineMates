@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class User {
+class UserModel {
 
   int _id;
   String _username;
@@ -9,7 +9,7 @@ class User {
   DateTime _createTime;
   int _isAdmin;
 
-  User(this._id, this._username, this._email, this._password, this._createTime,
+  UserModel(this._id, this._username, this._email, this._password, this._createTime,
       this._isAdmin);
 
   set isAdmin(int value) {

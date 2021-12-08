@@ -79,8 +79,8 @@ class MyAlertDialogs {
                     color: Colors.white, fontWeight: FontWeight.w100)),
             content: Text(
                 "Uno dei campi risulta invalido.\n"
-                    "Assicurati di aver inserito il contenuto nel corretto formato:\n"
-                    "- assicurati che l'indirizzo e-mail sia stato scritto in un formato valido;\n",
+                "Assicurati di aver inserito il contenuto nel corretto formato:\n"
+                "- assicurati che l'indirizzo e-mail sia stato scritto in un formato valido;\n",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -105,8 +105,8 @@ class MyAlertDialogs {
                     color: Colors.white, fontWeight: FontWeight.w100)),
             content: Text(
                 "Bentornato sulla nostra piattaforma!\n"
-                    "Ci sei mancato! Inizia subito a navigare tra migliaia di titoli e TV Series.\n"
-                    "Puoi marcare i titoli come preferiti o fare una lista personalizzata, aggiungere amici e altro. Divertiti!",
+                "Ci sei mancato! Inizia subito a navigare tra migliaia di titoli e TV Series.\n"
+                "Puoi marcare i titoli come preferiti o fare una lista personalizzata, aggiungere amici e altro. Divertiti!",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -162,8 +162,8 @@ class MyAlertDialogs {
                     color: Colors.white, fontWeight: FontWeight.w100)),
             content: Text(
                 "I dati inseriti non risultano nei nostri database.\n"
-                    "Assicurati di esserti già registrato, dunque torna qui e prova a inserire email e password che hai inserito in fase di registrazione.\n"
-                    "Se sei già registrato, riprova a inserire la password o la e-mail correttamente.",
+                "Assicurati di esserti già registrato, dunque torna qui e prova a inserire email e password che hai inserito in fase di registrazione.\n"
+                "Se sei già registrato, riprova a inserire la password o la e-mail correttamente.",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -213,7 +213,7 @@ class MyAlertDialogs {
                     color: Colors.white, fontWeight: FontWeight.w100)),
             content: Text(
                 "Attenzione, la registrazione non è andata a buon fine poiché la e-mail utilizzata è già presente nei nostri database.\n"
-                    "Assicurati di non essere già registrato con questa mail.\n",
+                "Assicurati di non essere già registrato con questa mail.\n",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -228,7 +228,8 @@ class MyAlertDialogs {
   }
 
   showDialogDuplicatedFavoriteMovie(BuildContext context) {
-    SnackBar snackBar = SnackBar(content: Text('Titolo rimosso dai tuoi preferiti!'));
+    SnackBar snackBar =
+        SnackBar(content: Text('Titolo rimosso dai tuoi preferiti!'));
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -237,7 +238,8 @@ class MyAlertDialogs {
             title: Text("Film già presente nei preferiti",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("Il titolo ci risulta già presente nella tua lista dei preferiti! Non c'è bisogno di aggiungerlo due volte!\n\n"
+            content: Text(
+                "Il titolo ci risulta già presente nella tua lista dei preferiti! Non c'è bisogno di aggiungerlo due volte!\n\n"
                 "Vuoi rimuoverlo dai preferiti?",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
@@ -290,7 +292,8 @@ class MyAlertDialogs {
             title: Text("Login non effettuato",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("Attenzione, per l'operazione scelta è necessario effettuare il login per l'identificazione utente.\n"
+            content: Text(
+                "Attenzione, per l'operazione scelta è necessario effettuare il login per l'identificazione utente.\n"
                 "Apri il menù a tendina a sinistra, e dirigiti alla pagina di login per aggiungere film ai preferiti!",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
@@ -421,7 +424,8 @@ class MyAlertDialogs {
                   child: Text("Crea la lista!"),
                   onPressed: () async {
                     int _idUser = await FlutterSession().get('token');
-                    User().createCustomList(_idUser, _descriptionController.text, _titleController.text);
+                    User().createCustomList(_idUser,
+                        _descriptionController.text, _titleController.text);
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   })
@@ -430,7 +434,8 @@ class MyAlertDialogs {
         });
   }
 
-  showDialogAddMovieInCustomList(BuildContext context, int movieId, String title, String poster, List<String> titles) async {
+  showDialogAddMovieInCustomList(BuildContext context, int movieId,
+      String title, String poster, List<String> titles) async {
     SnackBar snackBar = SnackBar(content: Text('Film aggiunto alla lista!'));
     showDialog(
         context: context,
@@ -443,31 +448,34 @@ class MyAlertDialogs {
             content: Container(
               width: double.maxFinite,
               child: ListView.separated(
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: 25.0,
-                  );
-                },
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: titles.length,
-                itemBuilder: (context, index) {
-                  if (titles.length == 0) {
-                    return Text("Non hai ancora creato delle liste personalizzate");
-                  }
-                  else {
-                    return GestureDetector(
-                      child: Text(titles[index], style: TextStyle(color: Colors.white, fontSize: 18.0, height: 1.5)),
-                      onTap: () {
-                        User().addMovieToCustomList(movieId, title, poster, titles[index]);
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(
+                      height: 25.0,
                     );
-                  }
-
-                }
-              ),
+                  },
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: titles.length,
+                  itemBuilder: (context, index) {
+                    if (titles.length == 0) {
+                      return Text(
+                          "Non hai ancora creato delle liste personalizzate");
+                    } else {
+                      return GestureDetector(
+                        child: Text(titles[index],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                height: 1.5)),
+                        onTap: () {
+                          User().addMovieToCustomList(
+                              movieId, title, poster, titles[index]);
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                      );
+                    }
+                  }),
             ),
             actions: [
               TextButton(
@@ -489,7 +497,8 @@ class MyAlertDialogs {
             title: Text("Richiesta amicizia",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("La richiesta di amicizia è stata inviata con successo all'utente @$username",
+            content: Text(
+                "La richiesta di amicizia è stata inviata con successo all'utente @$username",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -512,7 +521,8 @@ class MyAlertDialogs {
             title: Text("Richiesta amicizia",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("Il nome utente inserito sembra non esistere. Assicurati di aver scritto lo username corretto!",
+            content: Text(
+                "Il nome utente inserito sembra non esistere. Assicurati di aver scritto lo username corretto!",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -535,7 +545,8 @@ class MyAlertDialogs {
             title: Text("Richiesta amicizia",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("L'utente inserito è già presente nella lista amici, oppure hai già inviato una richiesta di collegamento.",
+            content: Text(
+                "L'utente inserito è già presente nella lista amici, oppure hai già inviato una richiesta di collegamento.",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -558,7 +569,8 @@ class MyAlertDialogs {
             title: Text("Richiesta amicizia",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("Richiesta di amicizia accettata! Ora l'utente @$username è tuo amico!",
+            content: Text(
+                "Richiesta di amicizia accettata! Ora l'utente @$username è tuo amico!",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -581,7 +593,8 @@ class MyAlertDialogs {
             title: Text("Richiesta amicizia",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("Richiesta di amicizia da parte di @$username rifiutata.",
+            content: Text(
+                "Richiesta di amicizia da parte di @$username rifiutata.",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [
@@ -604,7 +617,8 @@ class MyAlertDialogs {
             title: Text("Rimozione collegamento",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
-            content: Text("Il collegamento con l'utente @$username è stato rimosso.",
+            content: Text(
+                "Il collegamento con l'utente @$username è stato rimosso.",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w100)),
             actions: [

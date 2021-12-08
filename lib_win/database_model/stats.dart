@@ -12,7 +12,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -26,7 +26,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -40,7 +40,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -54,7 +54,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -68,7 +68,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -82,7 +82,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -96,7 +96,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -109,7 +109,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
@@ -122,7 +122,7 @@ class Stats {
     for (var row in result) {
       howmany = row[0];
     }
-    print(howmany);
+
     return howmany;
   }
 
