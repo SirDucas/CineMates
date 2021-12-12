@@ -26,6 +26,9 @@ class Admin {
           .query('insert into user (username,email,password) values (?, ?, ?)',
           ['$_username', '$_email', '$_password']);
       await db.conn.close();
+
+      int idUser = await User().retrieveIdUserByEmail(_email);
+      User().createFavoriteList(idUser);
       return true;
     }
   }

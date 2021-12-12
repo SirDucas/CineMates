@@ -47,4 +47,18 @@ class Check {
     }
     return flag;
   }
+
+  Future<bool> isAdmin(String email) async {
+    bool flag = false;
+    var db = new DatabaseConnection();
+    await db.initConnection();
+    var result = await db.conn
+        .query('select * from user where email = ? and isAdmin = 1', ['$email']);
+    for (var row in result) {
+      if (email == row['email']) {
+        flag = true;
+      }
+    }
+    return flag;
+  }
 }

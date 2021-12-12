@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
+import 'package:flutter_session/flutter_session.dart';
 import '../alerts_desktop/alert_desktop_model.dart';
 import '../widgets/user_data_table.dart';
 import 'activity_crud_screen.dart';
+import 'admin_login_screen.dart';
 import 'dashboard_screen.dart';
 import 'list_crud_screen.dart';
 
@@ -16,6 +18,7 @@ class UserCrudOperatorScreen extends StatefulWidget {
 
 class _UserCrudOperatorScreenState extends State<UserCrudOperatorScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  dynamic token;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +118,13 @@ class _UserCrudOperatorScreenState extends State<UserCrudOperatorScreen> {
                     fontSize: 14.0,
                   ),
                 ),
-                onTap: () {},
+                  onTap: () async {
+                    token = await FlutterSession().set('tokenadmin', '');
+                    await Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => AdminLoginScreen()));
+                  },
               ),
             ],
           ),

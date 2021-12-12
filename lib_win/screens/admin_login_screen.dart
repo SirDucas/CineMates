@@ -4,7 +4,10 @@ import 'package:cinemates/database_model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemates/style/theme.dart' as Style;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'dashboard_screen.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   @override
@@ -120,16 +123,24 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         if (emailController.text.isEmpty ||
                             passwordController.text.isEmpty) {
                           MyAlertDialogs().showDialogEmptyField(context);
+                          print("NEL CONTROLLO ISEMPTY");
                         }
                         else if (!Check().checkEmail(emailController.text)) {
                           MyAlertDialogs().showDialogInvalidLoginField(context);
+                          print("NEL CONTROLLO EMAIL");
                         }
                         else {
-                          if (await User().userLogin(
-                              emailController.text, passwordController.text) ==
-                              true) {}
+                          if (await Check().isAdmin(emailController.text) == true &&
+                              await User().userLogin(emailController.text, passwordController.text) == true) {
+                            print("sono entrato in USERLOGIN");
+                              await Navigator.pushReplacement(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) => DashboardScreen()));
+                          }
                           else {
                             MyAlertDialogs().showDialogFailedLogin(context);
+                            print("SONO NELL'ELSE FINALE");
                           }
                         }
                       }

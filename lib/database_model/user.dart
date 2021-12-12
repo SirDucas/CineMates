@@ -13,21 +13,24 @@ class User {
   Future<bool> userLogin(String _email, String _password) async {
     var db = new DatabaseConnection();
     await db.initConnection();
-    var result = await db.conn
-        .query('select id, password, isAdmin from user where email = ?', ['$_email']);
+    var result = await db.conn.query(
+        'select id, password, isAdmin from user where email = ?', ['$_email']);
     for (var row in result) {
-      if (Check().generateMd5(_password) == row['password'] && row['isAdmin'] == 0) {
+      if (Check().generateMd5(_password) == row['password'] &&
+          row['isAdmin'] == 0) {
         await db.conn.close(); //chiusura connessione
         await statsAccess(row['id']);
         await FlutterSession().set('token', row['id']);
         await FlutterSession().set('log', 'yes');
         return true;
-      } else if (Check().generateMd5(_password) == row['password'] && row['isAdmin'] == 1) {
+      } else if (Check().generateMd5(_password) == row['password'] &&
+          row['isAdmin'] == 1) {
         await db.conn.close(); //chiusura connessione
         await statsAccess(row['id']);
         await FlutterSession().set('token', row['id']);
         await FlutterSession().set('log', 'yes');
         await FlutterSession().set('tokenadmin', 'admin');
+        return true;
       } else {
         await db.conn.close(); //chiusura connessione
         return false;
@@ -37,13 +40,13 @@ class User {
     return false;
   }
 
-  void userRegistration(
+  Future<bool> userRegistration(
       String _username, String _email, String _password) async {
     if ((_username.isEmpty || _email.isEmpty || _password.isEmpty) ||
         (Check().checkUsernameLength(_username) == false) ||
         (Check().checkPasswordLength(_password) == false) ||
         (Check().checkEmail(_email) == false))
-      return;
+      return false;
     else {
       _password = Check().generateMd5(_password); //converto password a MD5.
       _username = escape(_username); //sicurezza su stringa username
@@ -54,17 +57,16 @@ class User {
           ['$_username', '$_email', '$_password']);
       await db.conn.close(); //chiusura connessione
       int idUser = await retrieveIdUserByEmail(_email);
-      print(idUser);
       createFavoriteList(idUser);
+      return true;
     }
   }
 
   void statsAccess(int _userId) async {
     var db = new DatabaseConnection();
     await db.initConnection();
-    var result = await db.conn.query(
-        'insert into access (id_user) values (?)',
-        ['$_userId']);
+    var result = await db.conn
+        .query('insert into access (id_user) values (?)', ['$_userId']);
     await db.conn.close();
   }
 
@@ -115,10 +117,11 @@ class User {
       else {
         var db = new DatabaseConnection();
         await db.initConnection();
-        _newpassword = Check().generateMd5(_newpassword); //converto password a MD5.
-        var change= await db.conn.query(
+        _newpassword =
+            Check().generateMd5(_newpassword); //converto password a MD5.
+        var change = await db.conn.query(
             'UPDATE user SET password = ? WHERE id = ?',
-            ['$_newpassword','$_userID']);
+            ['$_newpassword', '$_userID']);
         await db.conn.close();
         return;
       }
@@ -183,7 +186,8 @@ class User {
     await db.conn.close(); //chiusura connessione
   }
 
-  void addMovieToCustomList(int _idMovie, String _title, String _poster, String _titleList) async {
+  void addMovieToCustomList(
+      int _idMovie, String _title, String _poster, String _titleList) async {
     int _idList = await retrieveSingleListIdByTitle(_titleList);
     var db = new DatabaseConnection();
     await db.initConnection();
@@ -257,21 +261,26 @@ class User {
   }
 
   //metodi rimozione
-  void removeMovieFavorite(int _idMovie, int _userId) async {
+  Future<bool> removeMovieFavorite(int _idMovie, int _userId) async {
     int idLista;
     var db = new DatabaseConnection();
     await db.initConnection();
     var query = await db.conn.query(
         'select id from list where id_user = ? and isFavorites = 1',
         ['$_userId']);
-    for (var row in query) {
-      idLista = row['id'];
+    if (query.isEmpty) {
+      await db.conn.close();
+      return false;
+    } else {
+      for (var row in query) {
+        idLista = row['id'];
+      }
+      var delete = await db.conn.query(
+          'DELETE FROM favmovie where id_list = ? AND id_movie = ?',
+          ['$idLista', '$_idMovie']);
+      await db.conn.close();
+      return true;
     }
-    var delete = await db.conn.query(
-        'DELETE FROM favmovie where id_list = ? AND id_movie = ?',
-        ['$idLista', '$_idMovie']);
-
-    await db.conn.close();
   }
 
   void removeMovieCustomList(int _idMovie, String _title) async {
@@ -332,8 +341,7 @@ class User {
     var db = new DatabaseConnection();
     await db.initConnection();
     var result = await db.conn.query(
-        'select title from favmovie where id_movie = ? LIMIT 1',
-        ['$_movieId']);
+        'select title from favmovie where id_movie = ? LIMIT 1', ['$_movieId']);
     for (var row in result) {
       movieTitle = row['title'];
     }
@@ -374,8 +382,8 @@ class User {
     List<String> titles = [];
     var db = new DatabaseConnection();
     await db.initConnection();
-    var result =
-        await db.conn.query('select title from list where id_user = ?', ['$_userId']);
+    var result = await db.conn
+        .query('select title from list where id_user = ?', ['$_userId']);
     for (var row in result) {
       titles.add(row['title']);
     }
@@ -384,7 +392,7 @@ class User {
 
     return titles;
   }
-  
+
   Future<List<Favorite>> retrieveFavorites(int _userId) async {
     int movieId;
     String title;
@@ -393,13 +401,15 @@ class User {
     int idList;
     var db = new DatabaseConnection();
     await db.initConnection();
-    var query =
-        await db.conn.query('select id from list where id_user = ? and isFavorites = 1', ['$_userId']);
+    var query = await db.conn.query(
+        'select id from list where id_user = ? and isFavorites = 1',
+        ['$_userId']);
     for (var row in query) {
       idList = row['id'];
     }
-    var result = await db.conn
-        .query('select id_movie,title,poster from favmovie where id_list = ?', ['$idList']);
+    var result = await db.conn.query(
+        'select id_movie,title,poster from favmovie where id_list = ?',
+        ['$idList']);
     for (var row in result) {
       movieId = row['id_movie'];
       title = row['title'];
@@ -417,8 +427,9 @@ class User {
     List<CustomList> customLists = [];
     var db = new DatabaseConnection();
     await db.initConnection();
-    var result =
-        await db.conn.query('select id,description,title from list where id_user = ? and isFavorites = 0', ['$_userId']);
+    var result = await db.conn.query(
+        'select id,description,title from list where id_user = ? and isFavorites = 0',
+        ['$_userId']);
     for (var row in result) {
       idList = row['id'];
       description = row['description'];
@@ -429,7 +440,8 @@ class User {
     return customLists;
   }
 
-  Future<List<Favorite>> retrieveMovieFromCustomList(int _userId, String _title) async {
+  Future<List<Favorite>> retrieveMovieFromCustomList(
+      int _userId, String _title) async {
     int movieId;
     String title;
     String poster;
@@ -437,13 +449,15 @@ class User {
     int idList;
     var db = new DatabaseConnection();
     await db.initConnection();
-    var query =
-        await db.conn.query('select id from list where id_user = ? and title = ?', ['$_userId', '$_title']);
+    var query = await db.conn.query(
+        'select id from list where id_user = ? and title = ?',
+        ['$_userId', '$_title']);
     for (var row in query) {
       idList = row['id'];
     }
-    var result = await db.conn
-        .query('select id_movie,title,poster from favmovie where id_list = ?', ['$idList']);
+    var result = await db.conn.query(
+        'select id_movie,title,poster from favmovie where id_list = ?',
+        ['$idList']);
     for (var row in result) {
       movieId = row['id_movie'];
       title = row['title'];
@@ -452,7 +466,6 @@ class User {
       favorites.add(movie);
     }
     return favorites;
-
   }
 
   Future<int> retrieveSingleListIdByTitle(String _titleList) async {
@@ -460,8 +473,9 @@ class User {
     int userId = await FlutterSession().get('token');
     var db = new DatabaseConnection();
     await db.initConnection();
-    var result = await db.conn
-        .query('select id from list where title = ? and id_user = ?', ['$_titleList', '$userId']);
+    var result = await db.conn.query(
+        'select id from list where title = ? and id_user = ?',
+        ['$_titleList', '$userId']);
     for (var row in result) {
       idList = row['id'];
     }
@@ -473,8 +487,8 @@ class User {
     String titleList;
     var db = new DatabaseConnection();
     await db.initConnection();
-    var result = await db.conn.query(
-        'select title from list where id = ?', ['$_idList']);
+    var result = await db.conn
+        .query('select title from list where id = ?', ['$_idList']);
     for (var row in result) {
       titleList = row['title'];
     }
