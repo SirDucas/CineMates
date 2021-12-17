@@ -15,7 +15,7 @@ class DatabaseConnection {
         host: 'cinemates-db.coh7z9zsf7dm.eu-west-1.rds.amazonaws.com',
         port: 3306,
         user: 'admin',
-        db: '***********',
-        password: '************'));
+        db: 'cinemates_db',
+        password: 'cinemates12345'));
   }
 }
